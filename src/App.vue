@@ -1,26 +1,50 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<template lang="pug">
+.app
+  page-intro
+  image-search(
+    :items="items"
+  )
+  page-footer
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import PageIntro from './components/PageIntro.vue'
+import ImageSearch from './components/ImageSearch.vue'
+import PageFooter from './components/PageFooter.vue'
 
 export default {
   name: 'App',
+  props: {
+    items: Array,
+    langs: Array
+  },
   components: {
-    HelloWorld
+    PageIntro,
+    ImageSearch,
+    PageFooter
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<style lang='scss'>
+html {
+  font-size: 18px;
+}
+.app {
+  font-family: "proxima-nova";
+  font-size: 1rem;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 0;
+  background: #fff;
+  color: #333;
+  line-height: 1.6;
+}
+a {
+  color: #00a9e0;
+  text-decoration: none;
+  transition: 0.2s color;
+  &:hover {
+    color: #0b8dba;
+  }
 }
 </style>
