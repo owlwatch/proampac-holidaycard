@@ -24,14 +24,14 @@ export default {
     max-width: 90vw;
     width: 900px;
     margin: 1rem auto 3rem;
-    @include font-size(1.1rem);
+    @include font-size(1.05rem);
     @media( min-width: 800px ){
-        @include font-size(1.7rem);
+        @include font-size(1.5rem);
     }
 }
 .logo {
-    max-width: 90vw;
-    width: 500px;
+    max-width: 70vw;
+    width: 380px;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }

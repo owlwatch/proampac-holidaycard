@@ -44,13 +44,13 @@ export default {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
-    @include font-size(1.1rem);
+    @include font-size(1rem);
     @media( min-width: 800px ){
-        @include font-size(1.4rem);
+        @include font-size(1.7rem);
     }
     img {
-        width: 400px;
-        max-width: 100%;
+        width: 300px;
+        max-width: 60vw;
     }
 }
 .locale-changer {
