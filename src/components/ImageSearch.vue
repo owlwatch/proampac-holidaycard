@@ -366,11 +366,11 @@ export default {
     background: rgba($dark-green,0.8);
     mix-blend-mode: multiply;
     position: sticky;
-    top: 10px;
+    top: 20px;
     pointer-events: all;
     padding: 0.2em 1em;
     border-radius: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     font-weight: 400;
     border: 2px solid #fff;
     text-shadow: 0px 1px 4px rgba(0,0,0,0.5);
