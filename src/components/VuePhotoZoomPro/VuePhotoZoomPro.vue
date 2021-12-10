@@ -260,6 +260,8 @@ export default {
         $el.classList.add('found');
         if( !v.found ){
           this.$emit('found', v);
+          $el.classList.remove('pulse');
+          setTimeout(()=>$el.classList.add('pulse'), 1);
         }
       }
     }
@@ -308,6 +310,7 @@ export default {
       this.hideSelector = true;
       if (this.outZoomer) this.hideOutZoomer = true;
       this.$emit("mouseleave", e);
+      this.$refs.selector.$el.classList.remove('pulse');
     },
     update() {
       this.handleZoomRegionResize(getBoundingClientRect(this.$zoomRegion));

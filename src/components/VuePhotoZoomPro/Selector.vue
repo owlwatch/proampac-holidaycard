@@ -82,9 +82,9 @@ $color: $dark-green;
   &.found > .selector-wrap {
     border: 4px solid $color;
   }
-  &.hint > .selector-wrap {
-    border: 4px solid $color;
-    // animation: pulse 2s ease-out 0s 1;
+  &.pulse > .selector-wrap {
+    // border: 4px solid $color;
+    animation: pulse 2s ease-out 0s 1;
   }
 
   .item-label {
@@ -115,7 +115,7 @@ $color: $dark-green;
 	}
 
 	70% {
-		box-shadow: 0 0 0 100px rgba($color, 0);
+		box-shadow: 0 0 0 50px rgba($color, 0);
 	}
 
 	100% {

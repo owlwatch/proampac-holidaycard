@@ -20,6 +20,7 @@ main.image-search
                     span.material-icons(
                         style="margin-left: 0.25em;"
                     ) chevron_right
+
             .info(
                 v-if="started"
                 ref='info'
@@ -89,16 +90,34 @@ main.image-search
 </template>
 
 <script>
+import confetti from 'canvas-confetti';
 import VuePhotoZoomPro from './VuePhotoZoomPro/VuePhotoZoomPro.vue';
+const dingUrl = require("../assets/335908__littlerainyseasons__correct.mp3");
+const finishUrl = require("../assets/171671__leszek-szary__success-1.wav");
 export default {
     components: {
         VuePhotoZoomPro
     },
     data(){
+        const ding = new Audio(dingUrl);
+        const finish = new Audio(finishUrl);
+        const dingReady = new Promise( (resolve) => {
+            ding.addEventListener('canplaythrough', () => {
+                resolve(ding);
+            });
+        });
+        const finishReady = new Promise( (resolve) => {
+            finish.addEventListener('canplaythrough', () => {
+                resolve(finish);
+            });
+        });
         return {
             selected: [],
             activeItem: null,
-            started: false
+            started: false,
+            dingReady,
+            finishReady
+
         }
     },
     props: {
@@ -136,8 +155,11 @@ export default {
 
     },
     watch: {
-        foundItems(){
-            
+        complete(v){
+            if( v ){
+                // we need to throw a little party.
+                this.party();
+            }
         }
     },
     methods: {
@@ -211,7 +233,49 @@ export default {
         found(item){
             item.found=true;
             this.$refs.info.classList.remove('found');
-            setTimeout( () => this.$refs.info.classList.add('found'), 1)
+            setTimeout( () => this.$refs.info.classList.add('found'), 1);
+            if( this.complete ){
+                this.finishReady.then(sound => {
+                    sound.pause();
+                    sound.currentTime=0;
+                    sound.play();
+                });
+            }
+            else {
+                this.dingReady.then(sound => {
+                    sound.pause();
+                    sound.currentTime=0;
+                    sound.play();
+                });
+            }
+        },
+
+        party(){
+            var end = Date.now() + (4 * 1000);
+
+            // go Buckeyes!
+            var colors = ['#0b8dba', '#77BC1F'];
+
+            (function frame() {
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
         }
     }
 }
