@@ -17,13 +17,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "rfs/scss";
 .intro {
     text-align: center;
     max-width: 90vw;
     width: 900px;
     margin: 1rem auto 3rem;
-    font-size: 1.7rem;
+    @include font-size(1.1rem);
+    @media( min-width: 800px ){
+        @include font-size(1.7rem);
+    }
 }
 .logo {
     max-width: 90vw;

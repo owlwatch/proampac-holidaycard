@@ -14,10 +14,12 @@ import PageFooter from './components/PageFooter.vue'
 
 export default {
   name: 'App',
+  
   props: {
     items: Array,
     langs: Array
   },
+
   components: {
     PageIntro,
     ImageSearch,

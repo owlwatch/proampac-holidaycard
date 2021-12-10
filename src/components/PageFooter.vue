@@ -20,31 +20,43 @@ footer.footer
             ) 
                 a(
                     :class="{'active': locale === $i18n.locale}"
-                    @click.prevent="$i18n.locale = locale"
+                    @click.prevent="updateLocale(locale)"
                 ) {{ $t('copy.language_code', locale) }}
 </template>
 
 <script>
 export default {
 
+    methods: {
+        updateLocale(locale){
+            this.$root.$i18n.locale = locale;
+            localStorage.setItem('locale', locale);
+        }
+    }
+
 }
 </script>
 
 <style lang="scss">
+@import "rfs/scss";
 .footer {
-    padding: 4rem;
+    padding: 4rem 1rem;
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
-    font-size: 1.4rem;
+    @include font-size(1.1rem);
+    @media( min-width: 800px ){
+        @include font-size(1.4rem);
+    }
     img {
         width: 400px;
-        max-width: 90vw;
+        max-width: 100%;
     }
 }
 .locale-changer {
     font-size: 0.75rem;
     position: fixed;
+    z-index: 3;
     left: 0;
     width: 100%;
     bottom: 0;

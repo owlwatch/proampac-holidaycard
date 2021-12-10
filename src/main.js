@@ -1,6 +1,6 @@
 import 'normalize.css';
 
-import { createApp } from 'vue'
+import { createApp, reactive } from 'vue'
 import App from './App.vue'
 import axios from 'axios';
 import { createI18n } from 'vue-i18n';
@@ -49,7 +49,7 @@ async function run(){
             keyIndex = headers.indexOf('key');
         }
         else {
-            const obj = {};
+            const obj = {found:false};
             headers.forEach( (v, i) => {
                 obj[v] = row[i];
                 if( i === keyIndex ){ return; }
@@ -57,11 +57,12 @@ async function run(){
                     messages[v].items[row[keyIndex]] = row[i];
                 }
             });
-            items.push(obj);
+            items.push(reactive(obj));
         }
     });
-
-    let locale = navigator.language;
+    
+    let locale = localStorage.getItem('locale');
+    if( !locale ) locale = navigator.language;
     if( !langs.includes(locale) ){
         if( locale.match(/-/) ){
             locale = locale.split('-').shift();
@@ -73,6 +74,7 @@ async function run(){
 
     const i18n = createI18n({
         locale,
+        warnHtmlMessage: false,
         fallbackLocale: 'en',
         messages
     });
