@@ -31,7 +31,7 @@ export default {
 }
 .logo {
     max-width: 70vw;
-    width: 380px;
+    width: 400px;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }

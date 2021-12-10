@@ -49,7 +49,7 @@ export default {
         @include font-size(1.7rem);
     }
     img {
-        width: 300px;
+        width: 350px;
         max-width: 60vw;
     }
 }
