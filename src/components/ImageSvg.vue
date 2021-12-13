@@ -32,6 +32,7 @@ svg(
             v-bind="polygonAttrs(item)"
             @mouseenter="$emit('enter', item)"
             @mouseleave="$emit('leave', item)"
+            @click="$emit('itemClick', item)"
         )
 
         use.checkmark(

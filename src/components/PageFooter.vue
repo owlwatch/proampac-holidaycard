@@ -56,7 +56,7 @@ export default {
 .locale-changer {
     font-size: 0.75rem;
     position: fixed;
-    z-index: 3;
+    z-index: 300;
     left: 0;
     width: 100%;
     bottom: 0;

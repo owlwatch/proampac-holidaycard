@@ -35,6 +35,24 @@ export default {
 </script>
 
 <style lang='scss'>
+@import './variables.scss';
+$toast-colors: (
+  "success": $dark-green
+);
+
+@import 'vue-toast-notification/src/themes/default/index.scss';
+
+.v-toast {
+  padding: 1em;
+  font-family: "proxima-nova";
+  &__item {
+    border-radius: 0.5em;
+    border: 2px solid #fff;
+  }
+  &__text {
+    font-size: 0.9rem;
+  }
+}
 html {
   font-size: 18px;
 }

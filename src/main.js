@@ -5,6 +5,8 @@ import App from './App.vue'
 import axios from 'axios';
 import { createI18n } from 'vue-i18n';
 import {marked} from 'marked';
+import 'pinch-zoom-element';
+import VueToast from 'vue-toast-notification';
 
 async function run(){
 
@@ -81,6 +83,7 @@ async function run(){
 
     const app = createApp(App,{items, langs});
     app.use(i18n);
+    app.use(VueToast);
     app.mount('#app')
 }
 

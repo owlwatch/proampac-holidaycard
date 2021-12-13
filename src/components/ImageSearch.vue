@@ -16,7 +16,7 @@ main.image-search(
                 )
 
                 button(
-                    @click="started=true"
+                    @click="start()"
                 ) 
                     span Start Search
                     span.material-icons(
@@ -35,7 +35,21 @@ main.image-search(
                     v-else
                 ) {{ $t('copy.found_complete', [totalItems]) }}
 
+        .touch-container(
+            v-if="isTouch"
+            :class="{'playing':started && !paused && !complete}"
+        )
+            .touch-scroller
+                .touch-sizer
+                    .touch-element
+                        image-svg.preview(
+                            :items="items"
+                            :imageFile="imageFile"
+                            @itemClick="itemClick"
+                        )
+
         vue-photo-zoom-pro(
+            v-if="!isTouch"
             :disabled="false"
             type="circle"
             :outZoomer="isTouch"
@@ -71,8 +85,8 @@ main.image-search(
 
 <script>
 import confetti from 'canvas-confetti';
-import VuePhotoZoomPro from './VuePhotoZoomPro/VuePhotoZoomPro.vue';
 import ImageSvg from './ImageSvg.vue';
+import VuePhotoZoomPro from './VuePhotoZoomPro/VuePhotoZoomPro.vue';
 const dingUrl = require("../assets/335908__littlerainyseasons__correct.mp3");
 const finishUrl = require("../assets/171671__leszek-szary__success-1.wav");
 export default {
@@ -81,24 +95,39 @@ export default {
         ImageSvg
     },
     data(){
-        const ding = new Audio(dingUrl);
-        const finish = new Audio(finishUrl);
-        const dingReady = new Promise( (resolve) => {
-            ding.addEventListener('canplaythrough', () => {
-                resolve(ding);
-            });
+        const ding = new Audio();
+        const finish = new Audio();
+        
+        let dingReady = false;
+        
+        ding.addEventListener('canplaythrough', () => {
+            // alert('got the ding');
+            this.dingReady = true;
         });
-        const finishReady = new Promise( (resolve) => {
-            finish.addEventListener('canplaythrough', () => {
-                resolve(finish);
-            });
+
+        ding.addEventListener('error', () => {
+            // alert(e);
+        })
+        ding.src = dingUrl;
+        ding.load();
+        
+        let finishReady = false;
+        finish.addEventListener('canplaythrough', () => {
+            this.finishReady = true;
         });
+        finish.src=finishUrl;
+        finish.load();
+
+        document.body.appendChild( ding );
+        document.body.appendChild( finish );
+        
         return {
             selected: [],
             activeItem: null,
             started: false,
-            dingReady,
-            finishReady
+            paused: false,
+            ding, finish,
+            dingReady, finishReady
 
         }
     },
@@ -135,10 +164,14 @@ export default {
 
         complete(){
             return this.items.length == this.foundItems;
+        },
+
+        playing(){
+            return this.started && !this.paused && !this.complete;
         }
     },
     mounted(){
-
+        window.addEventListener('focus', ()=>this.maybeScrollALittle());
     },
     watch: {
         complete(v){
@@ -146,14 +179,34 @@ export default {
                 // we need to throw a little party.
                 this.party();
             }
-        }
+        },
+        // playing(v){
+        //     // document.body.style.overflow = v ? 'hidden' : '';
+        // }
     },
     methods: {
+        start(){
+            this.started = true;
+            if( this.isTouch ){
+                // scroll to the game
+                let top = this.$el.offsetTop;
+                window.scrollTo({
+                    top,
+                    behavior: 'smooth'
+                });
+            }
+        },
         select(item){
             item.found = true;
         },
         isSelected(item){
             return this.selected.includes(item);
+        },
+        itemClick(item){
+            this.$toast.success(this.$t('items.'+item.key));
+            if( !item.found ){
+                this.found(item);
+            }
         },
         enter(item){
             this.activeItem = item;
@@ -174,23 +227,37 @@ export default {
         found(item){
             item.found=true;
             this.$refs.info.classList.remove('found');
-            setTimeout( () => this.$refs.info.classList.add('found'), 1);
+            setTimeout( () => this.$refs.info.classList.add('found'), 100);
+
             if( this.complete ){
-                this.finishReady.then(sound => {
-                    sound.pause();
-                    sound.currentTime=0;
-                    sound.play();
-                });
+                if( this.finishReady ){
+                    this.finish.pause();
+                    this.finish.currentTime=0;
+                    this.finish.play();
+                }
             }
             else {
-                this.dingReady.then(sound => {
-                    sound.pause();
-                    sound.currentTime=0;
-                    sound.play();
+                if( this.dingReady ){
+                    this.ding.pause();
+                    this.ding.currentTime=0;
+                    this.ding.play();
+                }
+            }
+        },
+        maybeScrollALittle(){
+            if(this.playing){
+                // scroll to the game
+                let top = this.$el.offsetTop - 1;
+                window.scrollTo({
+                    top,
+                    behavior: 'smooth'
+                });
+                window.scrollTo({
+                    top,
+                    behavior: 'smooth'
                 });
             }
         },
-
         party(){
             var end = Date.now() + (4 * 1000);
 
@@ -226,6 +293,10 @@ export default {
 @import '../variables.scss';
 .image-search {
     display: flex;
+
+    .touch-zoom-area > .moving {
+        transition: all 0.25s;
+    }
 
     &:not(.is-touch)::v-deep {
         .selector-inner {
@@ -319,6 +390,39 @@ export default {
         height: auto;
         display: block;
         z-index: 1;
+    }
+}
+.touch-container {
+    height: 2475 / 1567 * 100%;
+
+    .touch-scroller{
+        transition: width 2s;
+    }
+    .touch-scroller {
+        width: 100%;
+        position: relative;
+    }
+    .touch-sizer {
+        padding-bottom: 2475 / 1567 * 100%;
+        position: relative;
+        height: 0;
+    }
+    .touch-element {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    &.playing {
+        height: 80vh;
+        width: 100vw;
+        overflow: scroll;
+
+        .touch-scroller {
+            width: 280%;
+        }
+
     }
 }
 .image-items {
