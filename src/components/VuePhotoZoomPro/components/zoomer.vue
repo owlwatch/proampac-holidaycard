@@ -13,11 +13,13 @@
       class="position"
       :style="positionStyle"
     >
-      <img
-        class="zommer-img"
-        :src="url"
+      <div
+        v-if="$slots.default"
+        class="region custom-zoomer"
         :style="zoomedStyle"
       >
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -72,8 +74,7 @@ export default {
       return {
         transform: `scale(${this.scale}) translateZ(0)`,
         width: `${zoomRegion.width}px`,
-        height: `${zoomRegion.height}px`,
-        transformOrigin: 'left top'
+        height: `${zoomRegion.height}px`
       }
     }
   }
@@ -83,9 +84,8 @@ export default {
 <style lang="scss" scoped>
 .zoomer {
   overflow: hidden;
-  pointer-events: none;
-  .zommer-img {
-    display: block;
+  .region {
+    transform-origin: left top;
   }
 }
 </style>

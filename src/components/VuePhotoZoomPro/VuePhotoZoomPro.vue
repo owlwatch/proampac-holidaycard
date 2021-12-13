@@ -3,9 +3,9 @@
     <div
       ref="zoomRegion"
       class="zoom-region"
-      @mouseenter="!disabled && handleMouseEnter($event)"
-      @mousemove="!disabled && handleMouseMove($event)"
-      @mouseleave="!disabled && handleMouseLeave($event)"
+      @mouseenter="!disabled && !enterEvent && handleMouseEnter($event)"
+      @mousemove="!disabled && !moveEvent && handleMouseMove($event)"
+      @mouseleave="!disabled && !leaveEvent && handleMouseLeave($event)"
     >
       <PhotoMask
         v-if="mask"
@@ -15,14 +15,20 @@
         :zoom-region="zoomRegionRect"
       />
       <Selector
-        ref="selector"
         v-if="selector"
         v-show="!hideSelector"
         v-bind="selectorProps"
-        :activeItem="activeItem"
         :type="type"
       >
-        <Zoomer v-if="!outZoomer" class="inner-zoomer" v-bind="zoomerProps">
+        <Zoomer
+          v-if="!outZoomer"
+          class="inner-zoomer"
+          v-bind="zoomerProps"
+        >
+          <ImgZoomer
+            v-if="highUrl || url"
+            :url="highUrl || url"
+          />
           <slot name="zoomer" />
         </Zoomer>
         <slot name="selector" />
@@ -34,194 +40,204 @@
         v-bind="zoomerProps"
         :style="outZoomerPosition"
       >
-        <slot name="outzoomer" />
+        <ImgZoomer
+          v-if="highUrl || url"
+          :url="highUrl || url"
+        />
+        <slot name="zoomer" />
       </Zoomer>
+      <ImgPreview
+        v-if="url"
+        :url="url"
+      />
       <slot />
     </div>
   </div>
 </template>
 <script>
-import PhotoMask from "./PhotoMask.vue";
-import Zoomer from "./Zoomer.vue";
-import Selector from "./Selector.vue";
+import PhotoMask from './components/photo-mask.vue'
+import Zoomer from './components/zoomer.vue'
+import Selector from './components/selector.vue'
+import { ImgPreview, ImgZoomer } from './plugins/img/index.js'
 import {
   getBoundingClientRect,
   getBoundValue,
   getScrollInfo,
-  addResizeListener,
-} from "./util";
-
+  addResizeListener
+} from './util/index.js'
 export default {
-  name: "VuePhotoZoomPro",
+  name: 'VuePhotoZoomPro',
   components: {
     PhotoMask,
     Selector,
     Zoomer,
+    ImgPreview,
+    ImgZoomer
   },
   props: {
-    activeItem: {
-      type: Object,
-      default: null
-    },
-    highUrl: {
-      type: String,
-      default: "",
-    },
     width: {
       type: Number,
-      default: 168,
+      default: 168
     },
     height: {
       type: Number,
-      default: -1,
+      default: -1
+    },
+    url: {
+      type: String,
+      default: ''
+    },
+    highUrl: {
+      type: String,
+      default: ''
     },
     type: {
       type: String,
-      default: "square",
+      default: 'square',
       validator: function (value) {
-        return ["circle", "square"].indexOf(value) !== -1;
-      },
+        return ['circle', 'square'].indexOf(value) !== -1
+      }
     },
     scale: {
       type: Number,
-      default: 2,
+      default: 2
     },
     enterEvent: {
       type: [Object, UIEvent],
-      default: null,
+      default: null
     },
     moveEvent: {
       type: [Object, UIEvent],
-      default: null,
+      default: null
     },
     leaveEvent: {
       type: [Object, UIEvent],
-      default: null,
+      default: null
     },
     selector: {
       type: Boolean,
-      default: true,
+      default: true
     },
     outZoomer: {
-      type: Boolean,
-      default: false,
+      type: [Boolean, Object],
+      default: false
     },
     disabledReactive: {
       type: Boolean,
-      default: false,
+      default: false
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     mask: {
       type: Boolean,
-      default: false,
+      default: false
     },
     maskColor: {
       type: String,
-      default: "",
-    },
+      default: ''
+    }
   },
-  data() {
+  data () {
     return {
       hideSelector: true,
       hideOutZoomer: true,
       outZoomerTop: 0,
       mouse: {
         x: 0,
-        y: 0,
+        y: 0
       },
       zoomRegionRect: {
         left: 0,
         top: 0,
         width: 0,
-        height: 0,
-      },
-    };
+        height: 0
+      }
+    }
   },
   computed: {
-    selectorWidth() {
-      return this.width;
+    selectorWidth () {
+      return this.width
     },
-    selectorHeight() {
-      return this.height > -1 ? this.height : this.width;
+    selectorHeight () {
+      return this.height > -1 ? this.height : this.width
     },
-    selectorHalfWidth() {
-      return this.selectorWidth / 2;
+    selectorHalfWidth () {
+      return this.selectorWidth / 2
     },
-    selectorHalfHeight() {
-      return this.selectorHeight / 2;
+    selectorHalfHeight () {
+      return this.selectorHeight / 2
     },
-    zoomerWidth() {
+    zoomerWidth () {
       return this.outZoomer
         ? this.selectorWidth * this.scale
-        : this.selectorWidth;
+        : this.selectorWidth
     },
-    zoomerHeight() {
+    zoomerHeight () {
       return this.outZoomer
         ? this.selectorHeight * this.scale
-        : this.selectorHeight;
+        : this.selectorHeight
     },
-    zoomerHalfWidth() {
-      return this.zoomerWidth / 2;
+    zoomerHalfWidth () {
+      return this.zoomerWidth / 2
     },
-    zoomerHalfHeight() {
-      return this.zoomerHeight / 2;
+    zoomerHalfHeight () {
+      return this.zoomerHeight / 2
     },
-    zoomRegionAbsolute() {
-      const { zoomRegionRect } = this;
-      const { scrollTop, scrollLeft } = getScrollInfo();
+    zoomRegionAbsolute () {
+      const { zoomRegionRect } = this
+      const { scrollTop, scrollLeft } = getScrollInfo()
       return {
         left: zoomRegionRect.left + scrollLeft,
-        top: zoomRegionRect.top + scrollTop,
-      };
+        top: zoomRegionRect.top + scrollTop
+      }
     },
-    pointBound() {
-      const { selectorHalfWidth, selectorHalfHeight, zoomRegionRect } = this;
+    pointBound () {
+      const { selectorHalfWidth, selectorHalfHeight, zoomRegionRect } = this
       return {
         leftBound: selectorHalfWidth,
         topBound: selectorHalfHeight,
         rightBound: zoomRegionRect.width - selectorHalfWidth,
-        bottomBound: zoomRegionRect.height - selectorHalfHeight,
-      };
+        bottomBound: zoomRegionRect.height - selectorHalfHeight
+      }
     },
-    vPointBound() {
-      const { zoomerHalfWidth, zoomerHalfHeight, zoomRegionRect, scale } = this;
+    vPointBound () {
+      const { zoomerHalfWidth, zoomerHalfHeight, zoomRegionRect, scale } = this
       return {
         leftBound: zoomerHalfWidth,
         topBound: zoomerHalfHeight,
         rightBound: zoomRegionRect.width * scale - zoomerHalfWidth,
-        bottomBound: zoomRegionRect.height * scale - zoomerHalfHeight,
-      };
+        bottomBound: zoomRegionRect.height * scale - zoomerHalfHeight
+      }
     },
-    point() {
-      const { mouse, pointBound } = this;
-      const { leftBound, topBound, rightBound, bottomBound } = pointBound;
+    point () {
+      const { mouse, pointBound } = this
+      const { leftBound, topBound, rightBound, bottomBound } = pointBound
       return {
         left: getBoundValue(mouse.x, leftBound, rightBound),
-        top: getBoundValue(mouse.y, topBound, bottomBound),
-      };
+        top: getBoundValue(mouse.y, topBound, bottomBound)
+      }
     },
-    vPoint() {
-      const { mouse, scale, vPointBound } = this;
-      const { leftBound, topBound, rightBound, bottomBound } = vPointBound;
+    vPoint () {
+      const { mouse, scale, vPointBound } = this
+      const { leftBound, topBound, rightBound, bottomBound } = vPointBound
       return {
         left: getBoundValue(mouse.x * scale, leftBound, rightBound),
-        top: getBoundValue(mouse.y * scale, topBound, bottomBound),
-      };
+        top: getBoundValue(mouse.y * scale, topBound, bottomBound)
+      }
     },
-    selectorProps() {
-      const { point } = this;
+    selectorProps () {
+      const { point } = this
       return {
         width: this.selectorWidth,
         height: this.selectorHeight,
         left: point.left - this.selectorHalfWidth,
-        top: point.top - this.selectorHalfHeight,
-      };
+        top: point.top - this.selectorHalfHeight
+      }
     },
-    zoomerProps() {
-      const { vPoint } = this;
+    zoomerProps () {
+      const { vPoint } = this
       return {
         scale: this.scale,
         zoomRegion: this.zoomRegionRect,
@@ -229,105 +245,91 @@ export default {
         width: this.zoomerWidth,
         height: this.zoomerHeight,
         left: vPoint.left - this.zoomerHalfWidth,
-        top: vPoint.top - this.zoomerHalfHeight,
-      };
+        top: vPoint.top - this.zoomerHalfHeight
+      }
     },
-    outZoomerPosition() {
+    outZoomerPosition () {
       return {
-        top: `${this.outZoomerTop}px`,
-      };
-    },
-  },
-  watch: {
-    scale() {
-      this.handleMouseMove(this.pointerInfo);
-    },
-    enterEvent(v) {
-      !this.disabled && this.handleMouseEnter(v);
-    },
-    moveEvent(v) {
-      !this.disabled && this.handleMouseMove(v);
-    },
-    leaveEvent(v) {
-      !this.disabled && this.handleMouseLeave(v);
-    },
-    activeItem(v){
-      const $el = this.$refs.selector.$el;
-      if( !v ){
-        $el.classList.remove('found')
+        top: `${this.outZoomerTop}px`
       }
-      else {
-        $el.classList.add('found');
-        if( !v.found ){
-          this.$emit('found', v);
-          $el.classList.remove('pulse');
-          setTimeout(()=>$el.classList.add('pulse'), 1);
-        }
-      }
+    },
+    outZoomerSticky () {
+      return typeof this.outZoomer === 'object' ? this.outZoomer.sticky : false
     }
   },
-  mounted() {
-    this.$zoomRegion = this.$refs.zoomRegion;
+  watch: {
+    scale () {
+      this.handleMouseMove(this.pointerInfo)
+    },
+    enterEvent (v) {
+      !this.disabled && this.handleMouseEnter(v)
+    },
+    moveEvent (v) {
+      !this.disabled && this.handleMouseMove(v)
+    },
+    leaveEvent (v) {
+      !this.disabled && this.handleMouseLeave(v)
+    }
+  },
+  mounted () {
+    this.$zoomRegion = this.$refs.zoomRegion
     if (!this.disabledReactive) {
       this.resizer = addResizeListener(
         this.$zoomRegion,
         this.handleZoomRegionResize
-      );
+      )
     }
-    this.update();
-    this.$emit("created");
+    this.update()
+    this.$emit('created')
   },
   methods: {
-    handleZoomRegionResize(rect) {
+    handleZoomRegionResize (rect) {
       this.zoomRegionRect = {
-        ...rect,
-      };
+        ...rect
+      }
     },
-    handleMouseEnter(e) {
-      this.resizer && this.resizer.valid();
-      this.hideSelector = false;
-      if (this.outZoomer) this.hideOutZoomer = false;
-      this.$emit("mouseenter", e);
+    handleMouseEnter (e) {
+      this.resizer && this.resizer.valid()
+      this.hideSelector = false
+      if (this.outZoomer) this.hideOutZoomer = false
+      this.$emit('mouseenter', e)
     },
-    handleMouseMove(e) {
-      if (this.hideSelector) return;
-      e = this.pointerInfo = e || this.pointerInfo;
+    handleMouseMove (e) {
+      if (this.hideSelector) return
+      e = this.pointerInfo = e || this.pointerInfo
       if (e) {
-        this.resizer && this.resizer.valid();
-        this.hideSelector = false;
-        const { pageX, pageY } = e;
-        const { zoomRegionAbsolute } = this;
-        this.mouse.x = pageX - zoomRegionAbsolute.left;
-        this.mouse.y = pageY - zoomRegionAbsolute.top;
-        if (this.outZoomer) {
-          this.hideOutZoomer = false;
-          this.outZoomerTop = Math.max(pageY - e.clientY, 0);
+        this.resizer && this.resizer.valid()
+        this.hideSelector = false
+        const { pageX, pageY } = e
+        const { zoomRegionAbsolute } = this
+        this.mouse.x = pageX - zoomRegionAbsolute.left
+        this.mouse.y = pageY - zoomRegionAbsolute.top
+        if (this.outZoomer && this.outZoomerSticky) {
+          this.hideOutZoomer = false
+          this.outZoomerTop = Math.max(pageY - e.clientY, 0)
         }
       }
-      this.$emit("mousemove", e);
+      this.$emit('mousemove', e)
     },
-    handleMouseLeave(e) {
-      this.hideSelector = true;
-      if (this.outZoomer) this.hideOutZoomer = true;
-      this.$emit("mouseleave", e);
-      this.$refs.selector.$el.classList.remove('pulse');
+    handleMouseLeave (e) {
+      this.hideSelector = true
+      if (this.outZoomer) this.hideOutZoomer = true
+      this.$emit('mouseleave', e)
     },
-    update() {
-      this.handleZoomRegionResize(getBoundingClientRect(this.$zoomRegion));
+    update () {
+      this.handleZoomRegionResize(getBoundingClientRect(this.$zoomRegion))
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .vue-photo-zoom-pro {
   font-size: 0;
-
   .zoom-region {
     position: relative;
-    display: block;
+    display: inline-block;
   }
-
   .out-zoomer {
     position: absolute;
     right: -8px;

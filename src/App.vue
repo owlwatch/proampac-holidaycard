@@ -2,6 +2,7 @@
 .app
   page-intro
   image-search(
+    :isTouch="isTouch"
     :items="items"
   )
   page-footer
@@ -14,6 +15,11 @@ import PageFooter from './components/PageFooter.vue'
 
 export default {
   name: 'App',
+
+  data(){
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    return {isTouch};
+  },
   
   props: {
     items: Array,

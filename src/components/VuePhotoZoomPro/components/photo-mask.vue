@@ -88,7 +88,6 @@ export default {
   background-color: rgba(0,0,0,0.4);
   z-index: 1;
 }
-
 .block {
   width: 30%;
   height: 50px;
