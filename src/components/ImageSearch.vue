@@ -1,5 +1,7 @@
 <template lang="pug">
-main.image-search
+main.image-search(
+    :class="{'is-touch': isTouch}"
+)
     .image-container
         .fade-sides
 
@@ -41,6 +43,7 @@ main.image-search
             ref="photoZoom"
             :activeItem="activeItem"
             :isSelected="isSelected"
+            @mouseleave="mouseleave"
             @found="found"
         )
 
@@ -50,6 +53,20 @@ main.image-search
                 @enter="enter"
                 @leave="leave"
             )
+            template(
+                v-slot:zoomer=""
+            )
+                image-svg(
+                    :items="items"
+                    :imageFile="imageFile"
+                )
+            template(
+                v-slot:selector=""
+            )
+                div.item-label(
+                    v-if="activeItem"
+                ) {{ $t('items.'+activeItem.key) }}
+
 </template>
 
 <script>
@@ -140,9 +157,19 @@ export default {
         },
         enter(item){
             this.activeItem = item;
+            this.$refs.photoZoom.$el.classList.add('found');
+            if( !item.found ){
+                this.found(item);
+                this.$refs.photoZoom.$el.classList.remove('pulse');
+                setTimeout( () =>  this.$refs.photoZoom.$el.classList.add('pulse'), 1 );
+            }
         },
         leave(){
             this.activeItem = null;
+            this.$refs.photoZoom.$el.classList.remove('found');
+        },
+        mouseleave(){
+            this.$refs.photoZoom.$el.classList.remove('pulse');
         },
         found(item){
             item.found=true;
@@ -199,6 +226,38 @@ export default {
 @import '../variables.scss';
 .image-search {
     display: flex;
+
+    &:not(.is-touch)::v-deep {
+        .selector-inner {
+            border: 4px solid #fff;
+        }
+        .found .selector-inner {
+            border-color: $dark-green;
+        }
+        .pulse .selector-inner {
+            animation: pulse 2s ease-out 0s 1;
+        }
+        .item-label {
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            background: rgba(#fff, 1);
+            mix-blend-mode: multiply;
+            z-index: 100;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: darken( $dark-green, 10% );
+            border-radius: 0.5rem;
+            padding: 4px 1em;
+            transform: translate(-50%, -5px);
+            border: 2px solid darken( $dark-green, 5%);
+            // text-shadow: 1px 1px 1px rgba($dark-green,0.65);
+            // box-shadow: 1px 1px 2px rgba(0,0,0,0.75);
+            white-space: nowrap;
+            transform-origin: 0% 50%;
+            animation: slide-up 0.4s ease-out 0s 1;
+        }
+    }
 }
 .image-container {
     flex-grow: 1;
@@ -377,6 +436,29 @@ button {
 
 	100% {
 		box-shadow: 0 0 0 0 rgba($green, 0);
+	}
+}
+
+@keyframes pulse-circle {
+	0% {
+		box-shadow: 0 0 0 0 rgba($green, 0.7);
+	}
+	70% {
+		box-shadow: 0 0 0 50px rgba($green, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba($green, 0);
+	}
+}
+
+@keyframes slide-up {
+	0% {
+    opacity: 0;
+		transform: scale(0) translate(-50%, -5px);
+	}
+	100% {
+    opacity: 1;
+		transform: scale(1) translate(-50%, -5px);
 	}
 }
 </style>

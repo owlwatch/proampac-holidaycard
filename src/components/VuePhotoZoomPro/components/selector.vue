@@ -9,7 +9,10 @@
     :class="['selector', type]"
     :style="selectorStyle"
   >
-    <slot />
+    <div class="selector-inner">
+      <slot />
+    </div>
+
   </div>
 </template>
 
@@ -53,13 +56,16 @@ export default {
 <style lang="scss" scoped>
 .selector {
   position: absolute;
-  overflow: hidden;
-  background-repeat: no-repeat;
-  cursor: crosshair;
   pointer-events: none;
-  z-index: 1;
-  &.circle {
+  z-index: 10;
+  .selector-inner {
+    overflow: hidden;
+    background-repeat: no-repeat;
+    cursor: crosshair;
+  }
+  &.circle .selector-inner {
     border-radius: 50%;
   }
 }
+
 </style>

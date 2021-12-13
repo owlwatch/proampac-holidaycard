@@ -328,7 +328,7 @@ export default {
   font-size: 0;
   .zoom-region {
     position: relative;
-    display: inline-block;
+    // display: inline-block;
   }
   .out-zoomer {
     position: absolute;
@@ -338,5 +338,6 @@ export default {
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
   }
+  
 }
 </style>
