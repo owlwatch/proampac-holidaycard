@@ -1,76 +1,91 @@
-<template lang="pug">
-.app
-  page-intro
-  image-search(
-    :isTouch="isTouch"
-    :items="items"
-  )
-  page-footer
+<template>
+  <header>
+    <img
+      alt="Vue logo"
+      class="logo"
+      src="@/assets/logo.svg"
+      width="125"
+      height="125"
+    />
+
+    <div class="wrapper">
+      <HelloWorld msg="You did it!" />
+
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+      </nav>
+    </div>
+  </header>
+
+  <RouterView />
 </template>
 
-<script>
-import PageIntro from './components/PageIntro.vue'
-import ImageSearch from './components/ImageSearch.vue'
-import PageFooter from './components/PageFooter.vue'
-
-export default {
-  name: 'App',
-
-  data(){
-    const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    return {isTouch};
-  },
-  
-  props: {
-    items: Array,
-    langs: Array
-  },
-
-  components: {
-    PageIntro,
-    ImageSearch,
-    PageFooter
-  }
-}
+<script setup lang="ts">
+import { RouterLink, RouterView } from "vue-router";
+import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
-<style lang='scss'>
-@import './variables.scss';
-$toast-colors: (
-  "success": $dark-green
-);
-
-@import 'vue-toast-notification/src/themes/default/index.scss';
-
-.v-toast {
-  padding: 1em;
-  font-family: "proxima-nova";
-  &__item {
-    border-radius: 0.5em;
-    border: 2px solid #fff;
-  }
-  &__text {
-    font-size: 0.9rem;
-  }
+<style scoped>
+header {
+  line-height: 1.5;
+  max-height: 100vh;
 }
-html {
-  font-size: 18px;
+
+.logo {
+  display: block;
+  margin: 0 auto 2rem;
 }
-.app {
-  font-family: "proxima-nova";
-  font-size: 1rem;
+
+nav {
+  width: 100%;
+  font-size: 12px;
   text-align: center;
-  margin: 0;
-  background: #fff;
-  color: #333;
-  line-height: 1.6;
+  margin-top: 2rem;
 }
-a {
-  color: #00a9e0;
-  text-decoration: none;
-  transition: 0.2s color;
-  &:hover {
-    color: #0b8dba;
+
+nav a.router-link-exact-active {
+  color: var(--color-text);
+}
+
+nav a.router-link-exact-active:hover {
+  background-color: transparent;
+}
+
+nav a {
+  display: inline-block;
+  padding: 0 1rem;
+  border-left: 1px solid var(--color-border);
+}
+
+nav a:first-of-type {
+  border: 0;
+}
+
+@media (min-width: 1024px) {
+  header {
+    display: flex;
+    place-items: center;
+    padding-right: calc(var(--section-gap) / 2);
+  }
+
+  .logo {
+    margin: 0 2rem 0 0;
+  }
+
+  header .wrapper {
+    display: flex;
+    place-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  nav {
+    text-align: left;
+    margin-left: -1rem;
+    font-size: 1rem;
+
+    padding: 1rem 0;
+    margin-top: 1rem;
   }
 }
 </style>
