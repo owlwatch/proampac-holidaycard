@@ -11,7 +11,7 @@ async function run(){
     const sheetId = '1ZygnMqIbQ2ivf4wLZ3orwuMGApYdlt2MMM7sZT6ncRQ';
     const apiKey = 'AIzaSyAvdeXGDbQKvKaUnUwjNYZ_Sn1rRp8wPnM';
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet/?ranges=Translations&ranges=Items&key=${apiKey}`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet/?ranges=Translations&key=${apiKey}`;
     const response = await axios.get(url);
 
     // lets load up the i18n
@@ -54,6 +54,7 @@ async function run(){
 
     const i18n = createI18n({
         locale,
+        legacy: false,
         warnHtmlMessage: false,
         fallbackLocale: 'en',
         messages
