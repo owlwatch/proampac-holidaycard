@@ -101,12 +101,12 @@ const updateArrow = () => {
 };
 
 const updateBox = () => {
-    const rotate = Math.max(-2, Math.min(2, position.value)) * -15;
-    const left = 50 + Math.max(-2, Math.min(2, position.value)) * -30;
     if( !quoteContent.value ){
         return;
     }
-    const translateY = Math.abs( Math.max(-2, Math.min(2, position.value)) ) * -30;
+    const rotate = Math.max(-2, Math.min(2, position.value)) * -20;
+    const left = 50 + Math.max(-2, Math.min(2, position.value)) * -30;
+    const translateY = Math.abs( Math.max(-2, Math.min(2, position.value)) ) * -40;
 
     quoteContent.value.style.transform = `rotate(${rotate}deg) translateY(${translateY}%)`;
     quoteContent.value.style.transformOrigin = `${left}% 20px`;
