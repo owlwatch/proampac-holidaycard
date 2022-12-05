@@ -431,6 +431,7 @@ const scrollTo = (id:string) => {
     padding-top: 40px;
     padding-bottom: 40px;
     position: relative;
+    z-index:1;
     &.showTopCurve {
         padding-top: 20px;
     }
