@@ -28,20 +28,20 @@
             .message-a
                 img(
                     width="390" height="168"
-                    :src="svgUrl('en/main_A-1.svg')"
+                    :src="svgUrl('main_A-1.svg', true)"
                 )
                 img(
                     width="390" height="168"
-                    :src="svgUrl('en/main_A-2.svg')"
+                    :src="svgUrl('main_A-2.svg', true)"
                 )
             .message-b
                 img(
                     width="390" height="168"
-                    :src="svgUrl('en/main_B-1.svg')"
+                    :src="svgUrl('main_B-1.svg', true)"
                 )
                 img(
                     width="390" height="168"
-                    :src="svgUrl('en/main_B-2.svg')"
+                    :src="svgUrl('main_B-2.svg', true)"
                 )
 
 
