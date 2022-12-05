@@ -46,7 +46,7 @@
 
 
         img.frame-bottom(
-            data-animate="slide-up"
+            data-animate="fade-up"
             v-if="isDesktop"
             :src="svgUrl('bg_bott-a.svg')"
         )
@@ -480,7 +480,7 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
     opacity: 0;
 }
 [data-animate="fade-in"] {
-    transition-delay: 2s;
+    transition-delay: 0.1s;
 }
 [data-animate="fade-in"]:not(.animated){
     opacity: 0;
