@@ -323,11 +323,12 @@ const scrollTo = (id:string) => {
 .arrow-down-container {
     position: fixed !important;
     z-index: 0;
-    bottom: 0px;
+    bottom: 180px;
     width: 100%;
     left: 0;
     max-width: none !important;
     @media (max-width: 800px){
+        bottom: 0px;
         &::before {
             position: absolute;
             pointer-events: none;
@@ -351,7 +352,7 @@ const scrollTo = (id:string) => {
     img {
         display: block;
         transform: rotate(90deg);
-        max-width: 40px;
+        max-width: 60px;
         margin: 0 auto;
         transition: none !important;
 
