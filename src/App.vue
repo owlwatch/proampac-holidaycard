@@ -322,6 +322,7 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
         display: flex;
         flex-direction: column;
         align-items:center;
+        justify-content: center;
         position: relative;
         > div {
             max-width: 400px;
