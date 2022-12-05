@@ -43,6 +43,14 @@
                     width="390" height="168"
                     :src="svgUrl('main_B-2.svg', true)"
                 )
+            
+        .arrow-down(
+            @click="scrollTo('interior-a')"
+            data-animate="fade-up"
+        )
+            img(
+                :src="svgUrl('arrow-down.svg')"
+            )
 
 
         img.frame-bottom(
@@ -51,7 +59,7 @@
             :src="svgUrl('bg_bott-a.svg')"
         )
     
-    .interior-a(
+    #interior-a.interior-a(
         :class="{showTopCurve: !isDesktop}"
     )
         .content-container
@@ -285,6 +293,17 @@ const setupAnimations = () => {
 };
 onMounted(() => setTimeout( setupAnimations, 1000 ) );
 
+const scrollTo = (id:string) => {
+    const el = document.getElementById(id);
+    if( el ){
+        const box = el.getBoundingClientRect();
+        window.scroll({
+            top: box.top + window.scrollY,
+            behavior: 'smooth'
+        })
+    }
+};
+
 </script>
 
 <style scoped lang="scss">
@@ -300,6 +319,18 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
     line-height: 1.6;
     font-weight: 500;
     overflow: hidden;
+}
+
+.arrow-down {
+    position: fixed !important;
+    z-index: 0;
+    bottom: 10px;
+    animation: bounce 2.4s infinite;
+    position: relative;
+    cursor: pointer;
+    img {
+        transform: rotate(90deg);
+    }
 }
 .snow {
     position: absolute;
@@ -402,6 +433,7 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
 }
 
 .interior-b {
+    position: relative;
     text-align: center;
     background: #fff;
     color: #333;
@@ -529,7 +561,8 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
     opacity: 0;
 }
 [data-animate="slide-down"]:not(.animated){
-    transform: translateY(-100%);
+    transform: translateY(-40%);
+    opacity: 0;
 }
 [data-animate="slide-up"]:not(.animated){
     transform: translateY(100%);
@@ -545,10 +578,10 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
     transition-delay: 1s;
 }
 [data-animate="main-message"]:deep(.message-b img) {
-    transition-delay: 2.5s;
+    transition-delay: 2s;
 }
 [data-animate="main-message"]:deep(.message-b img + img) {
-    transition-delay: 3.5s;
+    transition-delay: 3s;
 }
 .language-chooser {
     display: flex;
@@ -582,5 +615,25 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
             font-weight: bold;
         }
     }
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -moz-transform: translateY(-30px);
+    -ms-transform: translateY(-30px);
+    -webkit-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+  60% {
+    -moz-transform: translateY(-15px);
+    -ms-transform: translateY(-15px);
+    -webkit-transform: translateY(-15px);
+    transform: translateY(-15px);
+  }
 }
 </style>

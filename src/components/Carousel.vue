@@ -26,7 +26,7 @@ const { t } = useI18n({useScope:'global'});
 const options = {
     pageDots: false,
     wrapAround: true,
-    prevNextButtons: false,
+    prevNextButtons: true,
     autoPlay: 4000
 };
 
@@ -44,5 +44,12 @@ const onReady = (e:any) => {
 <style scoped lang="scss">
 .quote-carousel:deep(.flickity-viewport){
     overflow: visible !important;
+}
+.quote-carousel:deep(.flickity-prev-next-button){
+    // top: calc(50% - 20px);
+    background: transparent;
+    svg {
+        fill: #fff;
+    }
 }
 </style>
