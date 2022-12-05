@@ -107,9 +107,11 @@ const updateBox = () => {
     const rotate = Math.max(-2, Math.min(2, position.value)) * -20;
     const left = 50 + Math.max(-2, Math.min(2, position.value)) * -30;
     const translateY = Math.abs( Math.max(-2, Math.min(2, position.value)) ) * -40;
+    const opacity = 1 + Math.abs( Math.max(-1, Math.min(1, position.value*.75)) ) * -1;
 
     quoteContent.value.style.transform = `rotate(${rotate}deg) translateY(${translateY}%)`;
     quoteContent.value.style.transformOrigin = `${left}% 20px`;
+    quoteContent.value.style.opacity = `${opacity}`;
 };
 
 watch( progress, updatePosition);
