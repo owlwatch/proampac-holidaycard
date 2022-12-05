@@ -43,15 +43,15 @@
                     width="390" height="168"
                     :src="svgUrl('main_B-2.svg', true)"
                 )
-            
-        .arrow-down(
-            @click="scrollTo('interior-a')"
-            data-animate="fade-up"
-        )
-            img(
-                :src="svgUrl('arrow-down.svg')"
-            )
 
+                
+            .arrow-down-container
+                .arrow-down(
+                    @click="scrollTo('interior-a')"
+                )
+                    img(
+                        :src="svgUrl('arrow-down.svg')"
+                    )
 
         img.frame-bottom(
             data-animate="fade-up"
@@ -320,16 +320,41 @@ const scrollTo = (id:string) => {
     font-weight: 500;
     overflow: hidden;
 }
-
-.arrow-down {
+.arrow-down-container {
     position: fixed !important;
     z-index: 0;
-    bottom: 10px;
+    bottom: 0px;
+    width: 100%;
+    left: 0;
+    max-width: none !important;
+    @media (max-width: 800px){
+        &::before {
+            position: absolute;
+            pointer-events: none;
+            content: '';
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300%;
+            backdrop-filter:  blur(30px);
+            background: linear-gradient( to bottom, rgba( 0,0,0,0), rgba(0,0,0,0.7));
+            -webkit-mask: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 20%, white);
+        }
+    }
+}
+.arrow-down {
     animation: bounce 2.4s infinite;
-    position: relative;
     cursor: pointer;
+    text-align: center;
+    bottom: 10px;
+    position: relative;
     img {
+        display: block;
         transform: rotate(90deg);
+        max-width: 40px;
+        margin: 0 auto;
+        transition: none !important;
+
     }
 }
 .snow {
@@ -567,6 +592,10 @@ const scrollTo = (id:string) => {
 [data-animate="slide-up"]:not(.animated){
     transform: translateY(100%);
 }
+[data-animate="main-message"]:not(.animated):deep(.arrow-down-container){
+    transform: translateY(100%);
+    opacity: 0;
+}
 [data-animate="main-message"]:deep(img) {
     transition: 2s all;
 }
@@ -583,6 +612,11 @@ const scrollTo = (id:string) => {
 [data-animate="main-message"]:deep(.message-b img + img) {
     transition-delay: 3s;
 }
+[data-animate="main-message"]:deep(.arrow-down-container) {
+    transition: 1s all;
+    transition-delay: 4s;
+}
+
 .language-chooser {
     display: flex;
     align-items: center;
