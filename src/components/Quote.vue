@@ -2,7 +2,9 @@
 div.quote(
     ref="root"
 )
-    .quote-content
+    .quote-content(
+        ref="quoteContent"
+    )
         .quote-arrow(
             :style="arrowStyle"
         )
@@ -68,12 +70,14 @@ const props = defineProps<{
 const {progress, ready} = toRefs(props);
 
 const root = ref<HTMLDivElement>();
+const quoteContent = ref<HTMLDivElement>();
 const parent = ref<Element|null>();
 const position = ref<number>(0);
 const arrowStyle = ref<any>({});
 
 onMounted( () => {
-    parent.value = root.value?.closest('.flickity')
+    parent.value = root.value?.closest('.flickity');
+
 });
 
 const updatePosition = () => {
@@ -96,16 +100,29 @@ const updateArrow = () => {
     arrowStyle.value.transform = `rotate(${rotate}deg)`;
 };
 
+const updateBox = () => {
+    const rotate = Math.max(-2, Math.min(2, position.value)) * -15;
+    const left = 50 + Math.max(-2, Math.min(2, position.value)) * -30;
+    if( !quoteContent.value ){
+        return;
+    }
+    const translateY = Math.abs( Math.max(-2, Math.min(2, position.value)) ) * -30;
+
+    quoteContent.value.style.transform = `rotate(${rotate}deg) translateY(${translateY}%)`;
+    quoteContent.value.style.transformOrigin = `${left}% 20px`;
+};
+
 watch( progress, updatePosition);
 watch( ready, updatePosition);
 watch( position, updateArrow );
+watch( position, updateBox );
 
 </script>
 
 <style scoped lang="scss">
 .quote {
     width: 240px;
-    margin: 0 10px;
+    margin: 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;

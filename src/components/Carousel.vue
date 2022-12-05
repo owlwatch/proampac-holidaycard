@@ -1,5 +1,6 @@
 <template lang="pug">
-flickity(
+
+flickity.quote-carousel(
     :options="options"
     @scroll="onScroll"
     @ready="onReady"
@@ -11,7 +12,7 @@ flickity(
         :ready="ready"
         :copy="$t('copy.service'+(i))"
     )
-    
+
 </template>
 
 <script lang="ts" setup>
@@ -41,4 +42,7 @@ const onReady = (e:any) => {
 </script>
 
 <style scoped lang="scss">
+.quote-carousel:deep(.flickity-viewport){
+    overflow: visible !important;
+}
 </style>
