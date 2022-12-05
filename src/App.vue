@@ -125,7 +125,9 @@
                 v-html="marked.parse($t('copy.copyright'))"
             )
 
-            .language-chooser
+            .language-chooser(
+                data-animate="fade-up"
+            )
                 ul
                     li(
                         v-for="availableLocale in availableLocales"
@@ -140,9 +142,9 @@
                                 v-model="$i18n.locale"
                                 :value="availableLocale"
                                 :id="`locale-${availableLocale}`"
-                                @change="onLocaleChange"
+                                @input="onLocaleChange"
                             )
-                            span {{ availableLocale }}
+                            span {{ messages[availableLocale]['copy'].language_code }}
 
         img.frame-bottom(
             data-animate="fade-up"
@@ -154,7 +156,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { marked } from 'marked';
 import {ParticlesComponent} from 'vue3-particles';
@@ -181,12 +183,13 @@ mm.addEventListener('change', (ev: MediaQueryListEvent) => {
     isDesktop.value = ev.matches;
 });
 
-const { locale, availableLocales, t } = useI18n({useScope:'global'});
-const onLocaleChange = (e:Event) => {
+const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
 
-};
-
-
+watch( locale, (v : any) => {
+    if( typeof v == 'string' ){
+        localStorage.setItem('locale', v);
+    }
+} );
 
 const particlesOptions = {
     background: {
@@ -291,6 +294,7 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
     font-size: 1rem;
     line-height: 1.6;
     font-weight: 500;
+    overflow: hidden;
 }
 .snow {
     position: absolute;
@@ -300,7 +304,8 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
     height: 100%;
     z-index: 0;
     max-width: none;
-    opacity: 0.4
+    opacity: 0.4;
+    pointer-events: none;
 }
 .main-message {
     display: flex;
