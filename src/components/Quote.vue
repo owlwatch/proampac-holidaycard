@@ -107,7 +107,7 @@ const updateBox = () => {
     const rotate = Math.max(-2, Math.min(2, position.value)) * -20;
     const left = 50 + Math.max(-2, Math.min(2, position.value)) * -30;
     const translateY = Math.abs( Math.max(-2, Math.min(2, position.value)) ) * -40;
-    const opacity = 1 + Math.abs( Math.max(-1, Math.min(1, position.value*.75)) ) * -1;
+    const opacity = 1 + Math.abs( Math.max(-1.5, Math.min(1.5, position.value*.5)) ) * -1;
     const blur = 0 + Math.abs( Math.max(-1, Math.min(1, position.value)) ) * 2;
 
     quoteContent.value.style.transform = `rotate(${rotate}deg) translateY(${translateY}%)`;
