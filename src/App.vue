@@ -188,6 +188,11 @@ const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
 watch( locale, (v : any) => {
     if( typeof v == 'string' ){
         localStorage.setItem('locale', v);
+        // lets scroll to the top too
+        window.scroll({
+            top: 0,
+            behavior:'smooth'
+        });
     }
 } );
 
