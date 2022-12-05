@@ -315,6 +315,7 @@ onMounted(() => setTimeout( setupAnimations, 1000 ) );
     padding-bottom: 100px;
     position: relative;
     overflow: hidden;
+    min-height: 100vh;
 
     .message {
         flex-grow: 1;
