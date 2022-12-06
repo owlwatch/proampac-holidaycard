@@ -22,6 +22,28 @@
                 :src="svgUrl(isDesktop?'bg_top-a.svg':'bg_bott-a.svg')"
             )
 
+        .language-chooser.language-chooser--top(
+            style="margin-top: -40px; position: relative;"
+            data-animate="fade-up"
+        )
+            ul
+                li(
+                    v-for="availableLocale in locales"
+                    :key="`locale-${availableLocale}`"
+                )
+                    label(
+                        :for="`locale-${availableLocale}`"
+                    )
+                        input(
+                            type="radio"
+                            name="locale-top"
+                            v-model="$i18n.locale"
+                            :value="availableLocale"
+                            :id="`locale-${availableLocale}`"
+                            @input="onLocaleChange"
+                        )
+                        span {{ messages[availableLocale]['copy'].language_code }}
+
         .message(
             data-animate="main-message"
         )
@@ -138,7 +160,7 @@
             )
                 ul
                     li(
-                        v-for="availableLocale in availableLocales"
+                        v-for="availableLocale in locales"
                         :key="`locale-${availableLocale}`"
                     )
                         label(
@@ -192,6 +214,17 @@ mm.addEventListener('change', (ev: MediaQueryListEvent) => {
 });
 
 const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
+
+const locales = availableLocales.splice(0, availableLocales.length);
+locales.sort( (a, b) => {
+    if( a == 'en' ){
+        return -1;
+    }
+    if( b == 'en' ){
+        return 1;
+    }
+    return String(a) < String(b) ? 1 : -1;
+});
 
 watch( locale, (v : any) => {
     if( typeof v == 'string' ){
@@ -624,6 +657,18 @@ const scrollTo = (id:string) => {
     align-items: center;
     justify-content: center;
     font-size: 0.9rem;
+    &--top {
+        label {
+            span {
+                opacity: 0.4;
+            }
+            &:hover span, input:checked + span {
+                opacity: 1;
+                text-decoration: underline;
+                font-weight: bold;
+            }
+        }
+    }
     ul {
         margin: 0;
         padding: 0;
