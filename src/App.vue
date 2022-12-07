@@ -2,6 +2,9 @@
 .card(
     ref="root"
 )
+    .background(
+        data-animate="slide-open"
+    )
     .main-message
         div(
             data-animate="fade-in"
@@ -15,6 +18,7 @@
         div(
             style="width:100%"
             data-animate="slide-down"
+            data-animate-delay="1000"
             
         )
             img.frame-top(
@@ -25,6 +29,7 @@
         .language-chooser.language-chooser--top(
             style="margin-top: -40px; position: relative;"
             data-animate="fade-up"
+            data-animate-delay="1000"
         )
             ul
                 li(
@@ -46,6 +51,7 @@
 
         .message(
             data-animate="main-message"
+            data-animate-delay="1000"
         )
             .message-a
                 img(
@@ -76,6 +82,7 @@
                     )
 
         img.frame-bottom(
+            data-animate-delay="1000"
             data-animate="fade-up"
             v-if="isDesktop"
             :src="svgUrl('bg_bott-a.svg')"
@@ -291,10 +298,15 @@ const observe = (entries: IntersectionObserverEntry[]) => {
         return a.boundingClientRect.top - b.boundingClientRect.top
     });
     entries.forEach( (entry) => {
+        let delay = entry.target.getAttribute('data-animate-delay');
+        let timeout = 400 * (1 + c++);
+        if( delay ){
+            timeout += Number(delay);
+        }
         if( entry.isIntersecting ){
             setTimeout( () => {
                 entry.target.classList.add('animated');
-            }, 400 * (1 + c++) );
+            }, timeout );
         }
     });
 };
@@ -311,10 +323,12 @@ const setupAnimations = () => {
         parentSelectors.forEach( el => {
             let selector = el.getAttribute('data-animate-children');
             let animation = el.getAttribute('data-animate');
+            let delay = el.getAttribute('data-animate-delay');
             el.removeAttribute('data-animate');
             if( selector && animation ) el.querySelectorAll(selector).forEach( child => {
                 if( animation ){
                     child.setAttribute('data-animate', animation );
+                    child.setAttribute('data-delay', animation );
                 }
             });
         });
@@ -345,13 +359,21 @@ const scrollTo = (id:string) => {
     position: relative;
     color: #fff;
     min-height: 100vh;
-    background: $dark-green;
     max-width: 1000px;
     margin: 0 auto;
     font-size: 1rem;
     line-height: 1.6;
     font-weight: 500;
     overflow: hidden;
+    .background {
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background: $dark-green;
+    }
 }
 .arrow-down-container {
     position: fixed !important;
@@ -572,12 +594,16 @@ const scrollTo = (id:string) => {
 [data-animate] {
     transition: 1s all;
 }
+[data-animate="slide-open"]:not(.animated) {
+    left: 50%;
+    right:50%;
+}
 [data-animate="fade-up"]:not(.animated){
     transform: translateY(20px);
     opacity: 0;
 }
 [data-animate="fade-in"] {
-    transition-delay: 0.1s;
+    transition-delay: 1s;
 }
 [data-animate="fade-in"]:not(.animated){
     opacity: 0;

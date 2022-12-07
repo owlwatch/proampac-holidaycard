@@ -3,7 +3,11 @@
 
 html {
     padding: 0;
-    background: #214037;
+    background: #214037 url('/assets/svg/logo-proampac.svg');
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: 320px auto;
+    background-repeat:  no-repeat;
 }
 body {
     font-family: $base-font;
