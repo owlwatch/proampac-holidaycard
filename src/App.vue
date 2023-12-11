@@ -171,7 +171,6 @@ const setupAnimations = () => {
         
         if( observer ){
             const els = root.value.querySelectorAll('[data-animate]');
-            console.log(els);
             els.forEach( el => (observer as IntersectionObserver).observe(el) );
         }
     }
