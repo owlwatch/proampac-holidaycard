@@ -7,14 +7,18 @@
     language-chooser.language-chooser
 
     section(
-        data-animate-selector="h2, img, p, a" data-animate-children="fade-up" data-animate="fade-up"
+        data-animate-selector="h2, img, p, a"
+        data-animate-children="fade-up"
+        data-animate="fade-up"
     )
-        .primary-text(data-animate="fade-up" data-animate-selector data-animate-children="> *")(
+        .primary-text(
             v-html="parse('copy.interior_a')"
         )
 
     section.border-top(
-        data-animate-selector="h2, img, p" data-animate-children="fade-up" data-animate="fade-up"
+        data-animate-selector="h2, img, p" 
+        data-animate-children="fade-up"
+        data-animate="fade-up"
     )
         .grid--2
             .column.interior
@@ -70,7 +74,9 @@
                     ) butterfly-conservation.org
     section.mobile-copyright.border-top(
         v-if="!isDesktop"
-        data-animate-selector="h2, img, p" data-animate-children="fade-up" data-animate="fade-up"
+        data-animate-selector="h2, img, p"
+        data-animate-children="fade-up"
+        data-animate="fade-up"
     )
         .copyright(
             v-if="!isDesktop"

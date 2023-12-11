@@ -3,8 +3,8 @@ section.scene(
     :class="{[`locale-`+locale]: true}"
 )
     video-background(
-        src="@/assets/snow.mp4"
-        poster="@/assets/snow.jpg"
+        :src="bgVideo"
+        :poster="bgPoster"
         style="height: 100%; width: 100%;"
     )
         template(v-if="'fr' == locale")
@@ -13,19 +13,19 @@ section.scene(
                 alt="Spread"
             )
             light-bulb.letter-j(
-                src="@/assets/img/JOIE-J@4x.png"
+                :src="lightbulbJ"
                 alt="J"
             )
             light-bulb.letter-o(
-                src="@/assets/img/JOIE-O@4x.png"
+                :src="lightbulbO"
                 alt="O"
             )
             light-bulb.letter-i(
-                src="@/assets/img/JOIE-I@4x.png"
+                :src="lightbulbI"
                 alt="Y"
             )
             light-bulb.letter-e(
-                src="@/assets/img/JOIE-E@4x.png"
+                :src="lightbulbE"
                 alt="Y"
             )
 
@@ -35,15 +35,15 @@ section.scene(
                 alt="Spread"
             )
             light-bulb.letter-j(
-                src="@/assets/img/JOY-J@4x.png"
+                :src="lightbulbJ"
                 alt="J"
             )
             light-bulb.letter-o(
-                src="@/assets/img/JOY-O@4x.png"
+                :src="lightbulbO"
                 alt="O"
             )
             light-bulb.letter-y(
-                src="@/assets/img/JOY-Y@4x.png"
+                :src="lightbulbY"
                 alt="Y"
             )
 
@@ -53,6 +53,15 @@ section.scene(
 import { useI18n } from 'vue-i18n';
 import VideoBackground from 'vue-responsive-video-background-player';
 import LightBulb from './LightBulb.vue';
+
+import lightbulbJ from '@/assets/img/JOY-J@4x.png';
+import lightbulbO from '@/assets/img/JOY-O@4x.png';
+import lightbulbY from '@/assets/img/JOY-Y@4x.png';
+import lightbulbI from '@/assets/img/JOIE-I@4x.png';
+import lightbulbE from '@/assets/img/JOIE-E@4x.png';
+
+import bgVideo from '@/assets/snow.mp4';
+import bgPoster from '@/assets/snow.jpg';
 
 const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
 

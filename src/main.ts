@@ -36,7 +36,7 @@ async function run(){
                 if( !messages[v] ){
                     messages[v] = {copy:{}};
                 }
-                messages[v].copy[row[keyIndex]] = row[keyIndex].match(/^html/) ? marked.parse(row[i]) : row[i];
+                messages[v].copy[row[keyIndex]] = row[i];
             });
         }
     });
