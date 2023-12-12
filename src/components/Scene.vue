@@ -2,7 +2,7 @@
 section.scene(
     :class="{[`locale-`+locale]: true}"
 )
-    video-background(
+    video-background.video-bg(
         :src="bgVideo"
         :poster="bgPoster"
         style="height: 100%; width: 100%;"
@@ -72,12 +72,17 @@ const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
     aspect-ratio: 1.8 / 1;
     width: 100%;
     padding: 1px;
+    overflow: hidden;
     position: relative;
 }
 .bg-video {
     position: absolute;
     top:0;
     left: 0;
+}
+
+.video-bg {
+    transform: scale(1.1);
 }
 
 .locale-en {
@@ -128,8 +133,8 @@ const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
     }
     .letter-j {
         top: 51%;
-        left: 28.5%;
-        transform: translateX(-50%) rotate(-3deg) ;
+        left: 29.5%;
+        transform: translateX(-50%) rotate(3deg) ;
     }
     .letter-o {
         top: 52%;
