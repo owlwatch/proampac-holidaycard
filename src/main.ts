@@ -1,4 +1,4 @@
-import {createApp, reactive} from "vue";
+import {createApp} from "vue";
 import axios from 'axios';
 import {createI18n} from 'vue-i18n';
 import {marked} from 'marked';
@@ -8,7 +8,7 @@ import App from "./App.vue";
 
 async function run(){
 
-    const sheetId = '1ZygnMqIbQ2ivf4wLZ3orwuMGApYdlt2MMM7sZT6ncRQ';
+    const sheetId = '1CqXld23sAimNWboKOE8nvep-iiIir82wbz9JisqiBtA';
     const apiKey = 'AIzaSyAvdeXGDbQKvKaUnUwjNYZ_Sn1rRp8wPnM';
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet/?ranges=Translations&key=${apiKey}`;
@@ -36,7 +36,7 @@ async function run(){
                 if( !messages[v] ){
                     messages[v] = {copy:{}};
                 }
-                messages[v].copy[row[keyIndex]] = row[keyIndex].match(/^html/) ? marked.parse(row[i]) : row[i];
+                messages[v].copy[row[keyIndex]] = row[i];
             });
         }
     });
@@ -62,6 +62,12 @@ async function run(){
 
     const app = createApp(App, {langs} );
     app.use(i18n);
-    app.mount('#app')
+    
+    const pageLoader = document.querySelector('.page-loader');
+    if( pageLoader ){
+        pageLoader.classList.add('loaded');
+    }
+
+    app.mount('#app');
 }
 run();

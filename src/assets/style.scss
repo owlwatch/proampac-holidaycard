@@ -1,30 +1,93 @@
 @import 'normalize.css';
 @import './variables.scss';
 
+/* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1366,20,1.25,7,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+:root {
+    /* Step -2: 12.50px → 12.80px */
+    --step--2: clamp(0.7813rem, 0.7755rem + 0.0287vw, 0.8rem);
+  
+    /* Step -1: 15.00px → 16.00px */
+    --step--1: clamp(0.9375rem, 0.9184rem + 0.0956vw, 1rem);
+  
+    /* Step 0: 18.00px → 20.00px */
+    --step-0: clamp(1.125rem, 1.0868rem + 0.1912vw, 1.25rem);
+  
+    /* Step 1: 21.60px → 25.00px */
+    --step-1: clamp(1.35rem, 1.285rem + 0.325vw, 1.5625rem);
+  
+    /* Step 2: 25.92px → 31.25px */
+    --step-2: clamp(1.62rem, 1.5181rem + 0.5096vw, 1.9531rem);
+  
+    /* Step 3: 31.10px → 39.06px */
+    --step-3: clamp(1.9438rem, 1.7916rem + 0.761vw, 2.4413rem);
+  
+    /* Step 4: 37.32px → 48.83px */
+    --step-4: clamp(2.3325rem, 2.1124rem + 1.1004vw, 3.0519rem);
+  
+    /* Step 5: 44.79px → 61.04px */
+    --step-5: clamp(2.7994rem, 2.4887rem + 1.5535vw, 3.815rem);
+  
+    /* Step 6: 53.75px → 76.29px */
+    --step-6: clamp(3.3594rem, 2.9284rem + 2.1549vw, 4.7681rem);
+  
+    /* Step 7: 64.50px → 95.37px */
+    --step-7: clamp(4.0313rem, 3.441rem + 2.9512vw, 5.9606rem);
+  }
+  
 html {
     padding: 0;
-    background: #214037 url('/assets/svg/logo-proampac.svg');
-    background-attachment: fixed;
-    background-position: center center;
-    background-size: 320px auto;
-    background-repeat:  no-repeat;
+    background: #f2f2f2;
+}
+p {
+    line-height: 1.5;
+}
+.page-loader {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all;
+    z-index: 0;
+    color: $dark-gray;
+    img {
+        max-width: 300px;
+    }
+    &.loaded {
+        opacity: 0;
+    }
 }
 body {
-    font-family: $base-font;
+    font-family: $heading-font;
     padding: 0;
     margin: 0;
 }
 h2 {
     font-weight: 400;
     font-size: 2rem;
-    line-height: 1.25
+    line-height: 1.25;
+    margin-top: 0;
 }
 html {
     @media( min-width: 500px ){
-        
         font-size: 1.2rem;
     }
     @media( min-width: 800px ){
         font-size: 1.4rem;
     }
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }   
 }
