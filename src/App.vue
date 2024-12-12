@@ -5,8 +5,9 @@
 )
     scene
 
-    section.inside-card
-
+    section.inside-card(
+        data-animate="fade-up"
+    )
         .interior-card
             .heading(
                 data-animate="fade-up"
@@ -37,7 +38,9 @@
             )
 
             p(data-animate="fade-up" v-html="parse('copy.secondary_top')")
-            .donation-box
+            .donation-box(
+                data-animate="fade-up"
+            )
                 .donation-box-top
                     p(data-animate="fade-up" v-html="parse('copy.donation_top')")
                 .donation-box-bottom
