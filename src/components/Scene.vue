@@ -36,6 +36,7 @@ const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
     box-shadow: 0 2rem 4rem rgba(0,0,0,0.1);
     animation: zoom-background 15s 0s cubic-bezier(0.075, 0.82, 0.165, 1) 1 forwards;
     @media (min-width: 768px){
+        animation-duration: 30s;
         border-radius: 24px;
     }
 }
