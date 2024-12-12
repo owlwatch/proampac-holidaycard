@@ -8,18 +8,19 @@
     section.inside-card
 
         .interior-card
-
-            img(
+            .heading(
                 data-animate="fade-up"
-                v-if="'en'==locale"
-                src="@/assets/img/Interior/Text_int_Eng@4x.png"
             )
+                
+                img(
+                    v-if="'en'==locale"
+                    src="@/assets/img/Interior/Text_int_Eng@4x.png"
+                )
 
-            img(
-                data-animate="fade-up"
-                v-if="'fr'==locale"
-                src="@/assets/img/Interior/Text_int_FraCA@4x.png"
-            )
+                img(
+                    v-if="'fr'==locale"
+                    src="@/assets/img/Interior/Text_int_FraCA@4x.png"
+                )
 
             p(data-animate="fade-up" v-html="parse('copy.interior')")
 
