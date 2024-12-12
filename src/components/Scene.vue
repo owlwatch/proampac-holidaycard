@@ -2,165 +2,157 @@
 section.scene(
     :class="{[`locale-`+locale]: true}"
 )
-    video-background.video-bg(
-        :src="bgVideo"
-        :poster="bgPoster"
-        style="height: 100%; width: 100%;"
-    )
-        template(v-if="'fr' == locale")
-            img.spread(
-                src="@/assets/img/JOIE_spread@4x.png"
-                alt="Spread"
-            )
-            light-bulb.letter-j(
-                :src="lightbulbJ"
-                alt="J"
-            )
-            light-bulb.letter-o(
-                :src="lightbulbO"
-                alt="O"
-            )
-            light-bulb.letter-i(
-                :src="lightbulbI"
-                alt="Y"
-            )
-            light-bulb.letter-e(
-                :src="lightbulbE"
-                alt="Y"
-            )
-
-        template(v-else)
-            img.spread(
-                src="@/assets/img/JOY_spread@4x.png"
-                alt="Spread"
-            )
-            light-bulb.letter-j(
-                :src="lightbulbJ"
-                alt="J"
-            )
-            light-bulb.letter-o(
-                :src="lightbulbO"
-                alt="O"
-            )
-            light-bulb.letter-y(
-                :src="lightbulbY"
-                alt="Y"
-            )
-
+    .inner
+    .balloon
+        img(
+            src="@/assets/img/Balloon/balloon-298322860_sm.png"
+        )
+    .text-container
+        .white-burst
+        card-text.text
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import VideoBackground from 'vue-responsive-video-background-player';
-import LightBulb from './LightBulb.vue';
-
-import lightbulbJ from '@/assets/img/JOY-J@4x.png';
-import lightbulbO from '@/assets/img/JOY-O@4x.png';
-import lightbulbY from '@/assets/img/JOY-Y@4x.png';
-import lightbulbI from '@/assets/img/JOIE-I@4x.png';
-import lightbulbE from '@/assets/img/JOIE-E@4x.png';
-
-import bgVideo from '@/assets/snow.mp4';
-import bgPoster from '@/assets/snow.jpg';
-
+import coverTextEn from '@/assets/img/Text/A - All-in-one/SVG/Text_Eng.svg';
+import CardText from './CardText.vue';
 const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
+
+const coverText = computed( () => {
+    return coverTextEn;
+});
 
 </script>
 
 <style type="scss" scoped>
 .scene {
-    aspect-ratio: 1.8 / 1;
-    width: 100%;
-    padding: 1px;
     overflow: hidden;
     position: relative;
+    background-image: url(@/assets/img/Background/background-298322860-BG_exp_sm.jpg);
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    text-align: center;
+    box-shadow: 0 2rem 4rem rgba(0,0,0,0.1);
+    animation: zoom-background 7s 0s 1 forwards;
+    @media (min-width: 768px){
+        border-radius: 24px;
+    }
 }
-.bg-video {
+
+.balloon {
     position: absolute;
-    top:0;
-    left: 0;
-}
+    z-index: 3;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 33%;
+    animation: float-up-from-the-bottom 3s 0s 1;
 
-.video-bg {
-    transform: scale(1.1);
-}
-
-.locale-en {
-    .spread {
+    img {
+        
+        animation-name: sway;
+        animation-duration:  12s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
         width: 100%;
-        height: auto;
-        top: 10%;
-        left: 0;
-        position: absolute;
+        transform-origin: 50% 100%;
     }
 
-    &:deep(.light-bulb){
-        width: 16.5%;
-    }
-    .letter-j {
-        top: 42%;
-        left: 34%;
-    }
-    .letter-o {
-        top: 45%;
-        left: 52.5%;
-        transform: rotate(-4deg) translateX(-50%);
-    }
-    .letter-o:deep(img) {
-        transform-origin: 65% 0;
-        animation-delay: -0.5s;
-    }
-    .letter-y {
-        top: 43%;
-        left: 71.5%;
-    }
-    .letter-y:deep(img) {
-        animation-delay: -0.25s;
+    @media screen and (min-width: 768px ) {
+        width: 28%;
     }
 }
 
-.locale-fr {
-    .spread {
-        width: 100%;
-        height: auto;
-        top: 8%;
-        left: 0;
-        position: absolute;
+.white-burst {
+    background-image: radial-gradient( ellipse at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) 35%, rgba(255,255,255,0) 70% );
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 170%;
+    height: 170%;
+    opacity: 0;
+    animation: fade-in 3s 1s 1 forwards;
+}
+
+.text {
+    opacity: 0;
+    animation: fade-in 4s 1s 1 forwards;
+}
+
+.text-container {
+    position: relative;
+    width: 90%;
+    height: auto;
+    margin: 30% auto 25%;
+    position: relative;
+    z-index: 3;
+    aspect-ratio: 280 / 130;
+
+    @media screen and (min-width: 500px ) {
+        width: 80%;
+        margin: 30% auto 15%;
     }
 
-    &:deep(.light-bulb){
-        width: 14.5%;
+    @media screen and (min-width: 768px ) {
+        width: 65%;
+        margin: 25% auto 10%;
     }
-    .letter-j {
-        top: 51%;
-        left: 29.5%;
-        transform: translateX(-50%) rotate(3deg) ;
+    
+}
+.text {
+    position: relative;
+    z-index: 4;
+    width: 100% !important;
+    height: auto;
+    filter: drop-shadow(0 0px 7px rgba(255,255,255,1));
+}
+@keyframes sway {
+    0% {
+        transform: translateX(-3px) rotate(-1deg);
     }
-    .letter-o {
-        top: 52%;
-        left: 45%;
-        transform: translateX(-50%) rotate(-4deg) ;
+    25% {
+        transform: translateX(3px) rotate(1deg);
     }
-    .letter-o:deep(img) {
-        transform-origin: 65% 0;
-        animation-delay: -0.5s;
+    50% {
+        transform: translateX(-3px) rotate(-1deg);
     }
-    .letter-i {
-        top: 51%;
-        left: 61.5%;
+    75% {
+        transform: translateX(3px) rotate(1deg);
     }
-    .letter-o:deep(img) {
-        animation-delay: -0.33s;
-    }
-    .letter-e {
-        top: 47%;
-        left: 77%;
-        transform-origin: 40% 0;
-        transform: translateX(-50%) rotate(2deg) ;
-    }
-    .letter-e:deep(img) {
-        animation-delay: -0.4s;
+    100% {
+        transform: translateX(-3px) rotate(-1deg);
     }
 }
 
+@keyframes float-up-from-the-bottom {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: 0%;
+    }
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes zoom-background {
+    0% {
+        background-size: 140% auto
+    }
+    100% {
+        background-size: 180%;
+    }
+    
+}
+</style>
+<style>
 </style>

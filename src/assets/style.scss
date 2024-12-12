@@ -1,5 +1,5 @@
+@use './variables.scss' as *;
 @import 'normalize.css';
-@import './variables.scss';
 
 /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1366,20,1.25,7,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
@@ -37,10 +37,13 @@
   
 html {
     padding: 0;
-    background: #f2f2f2;
+    background: #f2f2f2 url(@/assets/img/Background/bg-swoosh-gray.png);
+    background-attachment: fixed;
+    background-size: cover;
 }
 p {
     line-height: 1.5;
+    font-weight: 300;
 }
 .page-loader {
     height: 100vh;
@@ -67,8 +70,8 @@ body {
     margin: 0;
 }
 h2 {
-    font-weight: 400;
-    font-size: 2rem;
+    font-weight: 600;
+    font-size: 1.8rem;
     line-height: 1.25;
     margin-top: 0;
 }

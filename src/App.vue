@@ -4,93 +4,51 @@
     :class="{[`locale-`+locale]: true}"
 )
     scene
-    language-chooser.language-chooser
 
-    section(
-        data-animate-selector="h2, img, p, a"
-        data-animate-children="fade-up"
-        data-animate="fade-up"
-    )
-        .primary-text(
-            v-html="parse('copy.interior_a')"
-        )
+    section.inside-card
+        .primary-text
+            h2 Little things can<br /> make a big impact
 
-    section.border-top(
-        data-animate-selector="h2, img, p" 
-        data-animate-children="fade-up"
-        data-animate="fade-up"
-    )
-        .grid--2
-            .column.interior
-                .secondary-text(
-                    v-html="parse('copy.interior_b')"
-                )
-                .copyright(
-                    v-if="isDesktop"
-                )
-                    a(
-                        href="https://proampac.com/"
-                        target="_blank"
-                    )
-                        img.proampac-logo(
-                            src="@/assets/svg/logo-main.svg"
-                            alt="ProAmpac Logo"
-                        )
-
-                    p &copy; 2023 ProAmpac. All rights reserved.
-            .column.sponsors
-                .sponsor
-                    a(
-                        href="https://1n5.org/"
-                        target="_blank"
-                    )
-                        img.logo-1n5(
-                            src="@/assets/img/1n5-logo.svg"
-                            alt="1n5 Logo"
-                        )
-                    .sponsor-text(
-                        v-html="parse('copy.in5_description')"
-                    )
-                    a(
-                        href="https://1n5.org/"
-                        target="_blank"
-                    ) 1n5.org
-                .sponsor
-                    a(
-                        href="https://butterfly-conservation.org/"
-                        target="_blank"
-                    )
-                        img.logo-butterfly(
-                            src="@/assets/img/butterfly-conservation.png"
-                            alt="Butterfly Conservation Logo"
-                        )
-                    .sponsor-text(
-                        v-html="parse('copy.butterfly_conservation_description')"
-                    )
-
-                    a(
-                        href="https://butterfly-conservation.org/"
-                        target="_blank"
-                    ) butterfly-conservation.org
-    section.mobile-copyright.border-top(
-        v-if="!isDesktop"
-        data-animate-selector="h2, img, p"
-        data-animate-children="fade-up"
-        data-animate="fade-up"
-    )
-        .copyright(
-            v-if="!isDesktop"
-        )
-            a(
-                href="https://proampac.com/"
-                target="_blank"
+            p
+                |  ProAmpac believes that our actions,
+                |  no matter how small, can help to
+                |  make a difference-in our families, our communities, and our ecosystems.
+                |  This year, we're proud to support the University of Illinois College of
+                |  Medicine's Varga Pediatrics Fund, in the form of a donation, to support
+                |  their mission and to continue to
+                |  promote health in our communities
+                |  and around the world.
+        
+        .secondary-text
+            img(
+                src="@/assets/img/UI-Health.jpg"
+                style="max-width: 400px; width: 100%"
             )
-                img.proampac-logo(
-                    src="@/assets/svg/logo-main.svg"
-                    alt="ProAmpac Logo"
-                )
 
-            p &copy; 2023 ProAmpac. All rights reserved.
+            p
+                | The Varga Pediatrics Fund's
+                |  mission develops scalable national
+                |  &amp; international programs that aid
+                |  in the prevention of heart disease
+                |  in children. 2024-2025 focus:
+                |  Pediatric Global Health and
+                |  Genetic Research.
+            p
+                | To make a gift to the
+                |  Varga Pediatrics Fund,
+                |  visit <a href="https://go.uic.edu/vargapedsfund">https://go.uic.edu/vargapedsfund</a>.
+
+    section.brand(
+        style="text-align: center"
+    )
+        img(
+            style="max-width: 300px; width: 60%"
+            src="@/assets/svg/logo-main.svg"
+            alt="Proampac Logo"
+        )
+
+        p © 2024 ProAmpac. All rights reserved.
+
 
 </template>
 
@@ -179,16 +137,18 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
 
 </script>
 <style scoped lang="scss">
-@import '@/assets/variables';
+@use '@/assets/variables' as *;
 .card {
     z-index: 1;
     animation: fade-in 1s 0 ease-in-out;
     position: relative;
-    max-width: 1366px;
+    max-width: 1200px;
     margin: 0 auto;
-    background: #fff;
     min-height: 100vh;
-    color: $dark-gray;
+    color: var(--dark-gray);
+    @media (min-width: 768px) {
+        padding: 3vw;
+    }
 }
 @keyframes fade-in {
     0% {
@@ -204,129 +164,52 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
     margin-top: -1.5rem;
     right: 10px;
 }
-section {
-    padding: 4rem 2rem;
+.inside-card {
     position: relative;
-    &.border-top::before {
-        content: '';
-        display: block;
-        width: calc( 100% - 4rem );
-        left: 50%;
-        transform: translateX(-50%);
-        position: absolute;
-        height: 1px;
-        top: -1px;
-        background: #ccc;
-        margin: 0 auto;
+    z-index: 3;
+    margin: -10% 5% 5%;
+    border-radius: 24px;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    justify-content: stretch;
+    gap: 2rem;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 2rem 4rem rgba(0,0,0,0.05);
+    
+    @media screen and (min-width: 1000px) {
+        align-items: flex-end;
+        gap: 3rem;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    h2 {
+        color: var(--blue);;
+        margin-bottom:0;
+        font-weight: 600;
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        letter-spacing: -0.03em;
     }
 }
 .primary-text {
+    flex: 1 0;
     text-align: center;
-    font-family: $heading-font;
-    &:deep(h2){
-        color: $pink;
-        font-size: var(--step-3);
-    }
-    &:deep(p){
-        color: $darkest-green;
-        font-size: 1.4rem;
-        line-height: 1.5;
-        max-width: 17em;
-        margin: 0 auto;
-        font-size: var(--step-1);
+    @media screen and (min-width: 1000px) {
+        text-align: right;
     }
 }
 .secondary-text {
-    &:deep(h2){
-        color: $dark-green;
-        font-size: var(--step-2);
+    flex: 1 0;
+    color: var(--blue);
+    text-align: center;
+    img {
+        max-width: 100%;
     }
-    &:deep(p){
-        font-size: var(--step--1);
-        line-height: 1.5;
+    @media screen and (min-width: 1000px) {
+        text-align: left;
     }
-}
-.sponsor-text {
-    font-family: $base-font;
-    font-size: 0.9rem;
-}
-.locale-fr .primary-text:deep(p) {
-    max-width: 20em;
-}
-
-.grid--2 {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    gap: 4rem;
-    .interior {
-        flex: 3 0;
-    }
-    .sponsors {
-        flex: 2 0;
-    }
-}
-@media( max-width: 1100px ){
-    .grid--2 {
-        flex-wrap: wrap;
-        flex-direction: column;
-        .interior, .sponsors {
-            width: 100%;
-        }
-    }
-}
-.sponsor img {
-    max-height: 90px;
-    height: 100%;
-    width: auto;
-}
-.mid-gray-section {
-    color: #f2f2f2;
-}
-.sponsors {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    @media (min-width: 700px) and (max-width: 1100px){
-        flex-direction: row;
-        .sponsor {
-            flex: 1 0 50%;
-        }
-    }
-}
-.proampac-logo {
-    max-width: 400px;
-    width: 100%;
-
-}
-.sponsor {
-    a {
-        color: inherit;
-        font-weight: 800;
-        text-decoration: none;
-        color: $dark-gray;
-        transition: 0.2s color;
-        display: block;
-        &:hover {
-            color: $pink;
-        }
-    }
-}
-.interior {
-    display: flex;
-    flex-direction: column;
-    .secondary-text {
-        flex: 1;
-    }
-}
-.copyright {
-    p {
-        margin-bottom: 0;
-    }
-}
-.mobile-copyright {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
 }
 </style>
 
