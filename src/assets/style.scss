@@ -5,7 +5,7 @@
 
 :root {
     /* Step -2: 12.50px → 12.80px */
-    --step--2: clamp(0.7813rem, 0.7755rem + 0.0287vw, 0.8rem);
+    --step--2: clamp(0.8313rem, 0.84rem + 0.0287vw, 0.9rem);
   
     /* Step -1: 15.00px → 16.00px */
     --step--1: clamp(0.9375rem, 0.9184rem + 0.0956vw, 1rem);
@@ -76,6 +76,7 @@ h2 {
     margin-top: 0;
 }
 html {
+    font-size: 1.1rem;
     @media( min-width: 500px ){
         font-size: 1.2rem;
     }

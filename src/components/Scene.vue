@@ -2,26 +2,25 @@
 section.scene(
     :class="{[`locale-`+locale]: true}"
 )
-    .inner
+    language-chooser.language-chooser
     .balloon
         img(
             src="@/assets/img/Balloon/balloon-298322860_sm.png"
         )
     .text-container
         .white-burst
-        card-text.text
+        card-text-en.text(v-if="'en' == locale")
+        card-text-fr.text(v-if="'fr' == locale")
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import coverTextEn from '@/assets/img/Text/A - All-in-one/SVG/Text_Eng.svg';
-import CardText from './CardText.vue';
+import CardTextEn from './CardTextEn.vue';
+import CardTextFr from './CardTextFr.vue';
+import LanguageChooser from './LanguageChooser.vue';
 const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
 
-const coverText = computed( () => {
-    return coverTextEn;
-});
 
 </script>
 
@@ -39,6 +38,14 @@ const coverText = computed( () => {
     @media (min-width: 768px){
         border-radius: 24px;
     }
+}
+
+.language-chooser {
+    position: absolute;
+    z-index: 2;
+    top: 1rem;
+    right: 10px;
+    z-index: 10;
 }
 
 .balloon {

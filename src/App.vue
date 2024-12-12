@@ -7,17 +7,9 @@
 
     section.inside-card
         .primary-text
-            h2 Little things can<br /> make a big impact
+            h2(v-html="parse('copy.primary_heading')")
 
-            p
-                |  ProAmpac believes that our actions,
-                |  no matter how small, can help to
-                |  make a difference-in our families, our communities, and our ecosystems.
-                |  This year, we're proud to support the University of Illinois College of
-                |  Medicine's Varga Pediatrics Fund, in the form of a donation, to support
-                |  their mission and to continue to
-                |  promote health in our communities
-                |  and around the world.
+            p(v-html="parse('copy.primary_body')")
         
         .secondary-text
             img(
@@ -25,29 +17,27 @@
                 style="max-width: 400px; width: 100%"
             )
 
-            p
-                | The Varga Pediatrics Fund's
-                |  mission develops scalable national
-                |  &amp; international programs that aid
-                |  in the prevention of heart disease
-                |  in children. 2024-2025 focus:
-                |  Pediatric Global Health and
-                |  Genetic Research.
-            p
-                | To make a gift to the
-                |  Varga Pediatrics Fund,
-                |  visit <a href="https://go.uic.edu/vargapedsfund">https://go.uic.edu/vargapedsfund</a>.
+            p(v-html="parse('copy.secondary_top')")
+            .donation-box
+                .donation-box-top
+                    p(v-html="parse('copy.donation_top')")
+                .donation-box-bottom
+                    p(v-html="parse('copy.donation_bottom')")
 
     section.brand(
         style="text-align: center"
     )
-        img(
-            style="max-width: 300px; width: 60%"
-            src="@/assets/svg/logo-main.svg"
-            alt="Proampac Logo"
+        a(
+            href="https://proampac.com/"
+            target="_blank"
+            style="max-width: 320px; width: 60%"
         )
+            img(
+                src="@/assets/svg/logo-main.svg"
+                alt="Proampac Logo"
+            )
 
-        p © 2024 ProAmpac. All rights reserved.
+        p(v-html="parse('copy.copyright')")
 
 
 </template>
@@ -64,9 +54,9 @@ export interface Props {
     langs?: Array<string>
 }
 
-const parse = (key:string) => {
+const parse = (key:string, inline:boolean=true) => {
     if( marked ){
-        return marked.parse(t(key));
+        return marked[inline?'parseInline':'parse'](t(key));
     }
 }
 
@@ -145,6 +135,7 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
     max-width: 1200px;
     margin: 0 auto;
     min-height: 100vh;
+    padding-bottom: 40px;
     color: var(--dark-gray);
     @media (min-width: 768px) {
         padding: 3vw;
@@ -167,7 +158,7 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
 .inside-card {
     position: relative;
     z-index: 3;
-    margin: -10% 5% 5%;
+    margin: -10% 5% 3rem;
     border-radius: 24px;
     padding: 2rem;
     display: grid;
@@ -180,7 +171,6 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
     box-shadow: 0 2rem 4rem rgba(0,0,0,0.05);
     
     @media screen and (min-width: 1000px) {
-        align-items: flex-end;
         gap: 3rem;
         grid-template-columns: 1fr 1fr;
     }
@@ -196,6 +186,9 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
 .primary-text {
     flex: 1 0;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     @media screen and (min-width: 1000px) {
         text-align: right;
     }
@@ -204,12 +197,50 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
     flex: 1 0;
     color: var(--blue);
     text-align: center;
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     img {
         max-width: 100%;
     }
     @media screen and (min-width: 1000px) {
         text-align: left;
     }
+}
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.donation-box {
+    text-align: center;;
+    color: #000;
+    font-size: var(--step--1);
+    background-color: #AED1CA;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    &:deep(a) {
+        color: #000;
+        text-decoration: none;
+        font-weight: 600;;
+    }
+    > div {
+        padding: 1em;
+    }
+    .donation-box-bottom {
+        background-color: #CBE2DA;
+        font-size:var(--step--2);
+        p {
+            max-width: 25ch;
+            margin: 0 auto;
+        }
+    }
+}
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
 }
 </style>
 

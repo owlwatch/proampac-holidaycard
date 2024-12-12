@@ -50,7 +50,6 @@ watch( locale, (v : any) => {
 </script>
 
 <style lang="scss" scoped>
-@use '@/assets/variables';
 ul {
     list-style: none;
     display: flex;
@@ -64,11 +63,11 @@ ul {
         padding: 0;
         margin: 0;
         span {
-            color: variables.$dark-green;
+            color: var(--blue);
             font-weight: 600;
         }
         label:hover span {
-            color: variables.$pink;
+            color: var(--dark-grey);
         }
         input {
             opacity: 0;

@@ -8,7 +8,7 @@ import App from "./App.vue";
 
 async function run(){
 
-    const sheetId = '1CqXld23sAimNWboKOE8nvep-iiIir82wbz9JisqiBtA';
+    const sheetId = '1uG6_ndH6qbCDvYO9Vll-2-9lHugiORwCovIYwW85YDQ';
     const apiKey = 'AIzaSyAvdeXGDbQKvKaUnUwjNYZ_Sn1rRp8wPnM';
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet/?ranges=Translations&key=${apiKey}`;
