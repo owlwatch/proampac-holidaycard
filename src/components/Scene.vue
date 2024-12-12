@@ -44,7 +44,7 @@ const { locale, availableLocales, t, messages } = useI18n({useScope:'global'});
     position: absolute;
     z-index: 2;
     top: 1rem;
-    right: 10px;
+    right: 1rem;
     z-index: 10;
 }
 
