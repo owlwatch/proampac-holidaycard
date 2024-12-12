@@ -6,28 +6,47 @@
     scene
 
     section.inside-card
-        .primary-text
-            h2(v-html="parse('copy.primary_heading')")
 
-            p(v-html="parse('copy.primary_body')")
+        .interior-card
+
+            img(
+                data-animate="fade-up"
+                v-if="'en'==locale"
+                src="@/assets/img/Interior/Text_int_Eng@4x.png"
+            )
+
+            img(
+                data-animate="fade-up"
+                v-if="'fr'==locale"
+                src="@/assets/img/Interior/Text_int_FraCA@4x.png"
+            )
+
+            p(data-animate="fade-up" v-html="parse('copy.interior')")
+
+        .primary-text
+            h2(data-animate="fade-up" v-html="parse('copy.primary_heading')")
+
+            p( data-animate="fade-up" v-html="parse('copy.primary_body')")
         
         .secondary-text
             img(
+                data-animate="fade-up"
                 src="@/assets/img/UI-Health.jpg"
                 style="max-width: 400px; width: 100%"
             )
 
-            p(v-html="parse('copy.secondary_top')")
+            p(data-animate="fade-up" v-html="parse('copy.secondary_top')")
             .donation-box
                 .donation-box-top
-                    p(v-html="parse('copy.donation_top')")
+                    p(data-animate="fade-up" v-html="parse('copy.donation_top')")
                 .donation-box-bottom
-                    p(v-html="parse('copy.donation_bottom')")
+                    p(data-animate="fade-up" v-html="parse('copy.donation_bottom')")
 
     section.brand(
         style="text-align: center"
     )
         a(
+            data-animate="fade-up"
             href="https://proampac.com/"
             target="_blank"
             style="max-width: 320px; width: 60%"
@@ -37,7 +56,7 @@
                 alt="Proampac Logo"
             )
 
-        p(v-html="parse('copy.copyright')")
+        p(data-animate="fade-up" v-html="parse('copy.copyright')")
 
 
 </template>
@@ -173,6 +192,10 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
     @media screen and (min-width: 1000px) {
         gap: 3rem;
         grid-template-columns: 1fr 1fr;
+
+        .interior-card {
+            grid-column: 1 / span 2;
+        }
     }
 
     h2 {
@@ -181,6 +204,25 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
         font-weight: 600;
         font-family: 'Helvetica', 'Arial', sans-serif;
         letter-spacing: -0.03em;
+    }
+}
+
+.interior-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    align-items: center;
+    padding-bottom: 2rem;
+    position: relative;
+    border-bottom: 1px solid #d8d8d8;
+    img {
+        max-height: 200px;
+        max-width: 100%;
+    }
+    p {
+        max-width: 50ch;
     }
 }
 .primary-text {
