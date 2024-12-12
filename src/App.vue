@@ -3,10 +3,12 @@
     ref="root"
     :class="{[`locale-`+locale]: true}"
 )
-    scene
+    scene(
+        
+    )
 
     section.inside-card(
-        data-animate="fade-up"
+        
     )
         .interior-card
             .heading(
