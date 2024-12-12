@@ -294,7 +294,7 @@ p {
 
 <style>
 [data-animate] {
-    transition: 1s all;
+    transition: 1s transform, 1s opacity, 1s top, 1s right;
 }
 [data-animate="slide-open"]:not(.animated) {
     left: 50%;
