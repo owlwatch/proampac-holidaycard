@@ -31,12 +31,22 @@ async function run(){
             })
         }
         else {
+            if (keyIndex === -1) { return; }
+            const key = row[keyIndex];
+            if (!key) { return; }
             headers.forEach( (v:string, i) => {
                 if( i === keyIndex ){ return; }
-                if( !messages[v] ){
-                    messages[v] = {copy:{}};
+                const value = row[i];
+                if (value === undefined) { return; }
+                let langMessages = messages[v];
+                if( !langMessages ){
+                    langMessages = {copy:{}};
+                    messages[v] = langMessages;
                 }
-                messages[v].copy[row[keyIndex]] = row[i];
+                if( !langMessages.copy ){
+                    langMessages.copy = {};
+                }
+                langMessages.copy[key] = value;
             });
         }
     });
