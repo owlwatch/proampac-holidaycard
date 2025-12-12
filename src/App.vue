@@ -183,7 +183,7 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
 .inside-card {
     position: relative;
     z-index: 3;
-    margin: -10% 5% 3rem;
+    margin: -2% 5% 3rem;
     border-radius: 24px;
     padding: 2rem;
     display: grid;

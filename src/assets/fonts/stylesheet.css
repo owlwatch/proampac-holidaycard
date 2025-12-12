@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Serendipity Wide One';
+    src: url('SerendipityWideOne.woff2') format('woff2'),
+        url('SerendipityWideOne.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Serendipity One';
+    src: url('SerendipityOne.woff2') format('woff2'),
+        url('SerendipityOne.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
