@@ -39,7 +39,7 @@ const wrappedVisible = ref(true);
 
 
 function particlesLoaded(container:any){
-    console.log(container);
+    
 }
 
 </script>
