@@ -27,7 +27,7 @@
 
                 img.impact-pipes(
                     data-animate="fade-up"
-                    src="@/assets/img/impact-pipes.jpg"
+                    src="@/assets/img/ProAmpac_Holidays_Card_2025_Impact_Arrows.svg"
                 )
                 .impact-2025-copy
 
@@ -228,7 +228,9 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
 
 .impact-pipes {
     margin-left: -2em;
-    width: 150px;
+    width: 200px;
+    flex-shrink: 0;
+    transform: translateX(-8%);
     @media( max-width: 450px ){
         display: none;
     }
@@ -274,7 +276,8 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    // padding-right: 1rem;
+    padding-right: 2rem;
+    padding-top: 2rem;
     @media screen and (min-width: 1000px) {
         text-align: left;
     }
@@ -303,9 +306,11 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
     padding-left: 2rem;
     padding-top: 2rem;
+    font-size: var(--step--2);
     img {
         width: 320px;
         max-width: 100%;
