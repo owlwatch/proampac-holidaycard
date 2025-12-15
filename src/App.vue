@@ -229,6 +229,9 @@ onMounted(() => setTimeout( setupAnimations, 500 ) );
 .impact-pipes {
     margin-left: -2em;
     width: 150px;
+    @media( max-width: 450px ){
+        display: none;
+    }
 }
 
 .interior-card {
