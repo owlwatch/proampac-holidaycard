@@ -5,13 +5,15 @@ $dark-green: #2D7F5B;
 $darkest-green: #2C4846;
 $pink: #D67B71;
 
-html {
+:root {
 	--base-font: "proxima-nova";
 	--heading-font: "proxima-nova";
 	--cursive-font: 'Serendipity Wide One', cursive;
 	--dark-gray: #58595B;
 	--dark-green: #2D7F5B;
-	--darkest-green: #2C4846;
+	--darkest-green: #324E35;
 	--pink: #D67B71;
 	--blue: #3C6F7D;
+	--light-green: #76bd22;
+	--light-blue: #408195;
 }

@@ -21,8 +21,8 @@ section.scene(
     )
 
     .text
-        .making-an Making an
-        .impact Impact
+        .making-an {{ t('copy.making_an') }}
+        .impact {{ t('copy.impact') }}
 
     .burst-of-light
 </template>
@@ -48,7 +48,7 @@ function particlesLoaded(container:any){
 .scene {
     overflow: hidden;
     position: relative;
-    background-image: url(@/assets/img/Background/snow-bg.png);
+    background-image: url(@/assets/img/Background/snow-bg.jpg);
     background-size: cover;
     background-position: 50% 50%;
     aspect-ratio: 1631 / 1022;
@@ -80,7 +80,7 @@ function particlesLoaded(container:any){
 }
 
 .wrapped {
-    animation: fade-out 0s 4.5s forwards
+    animation: fade-out 0s 3s forwards
 }
 
 .language-chooser {
@@ -102,7 +102,7 @@ function particlesLoaded(container:any){
     transform: translate(-50%, -50%);
     pointer-events: none;
     animation: burst-of-light 3s ease-in forwards;
-    animation-delay: 3s;
+    animation-delay: 1.5s;
 }
 
 .text {
@@ -121,7 +121,10 @@ function particlesLoaded(container:any){
         font-family: var(--cursive-font);
         font-size: 20cqi;
         white-space: nowrap;
+        opacity: 0;
         text-shadow: 0.025em 0.025em 0.05em rgba(255,255,255,0.9);
+        animation: fade-in-up 1s ease-in-out forwards;
+        animation-delay: 3s;
     }
 
     .impact {
@@ -129,7 +132,10 @@ function particlesLoaded(container:any){
         font-size: 22cqi;
         font-weight: 600;
         color: var( --dark-green );
+        opacity: 0;
         text-shadow: 0.025em 0.025em 0.05em rgba(255,255,255,0.9);
+        animation: fade-in-down 1s ease-in-out forwards;
+        animation-delay: 3s;
     }
 }
 
@@ -139,6 +145,28 @@ function particlesLoaded(container:any){
     }
     100% {
         opacity: 0;
+    }
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes fade-in-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-20%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
     }
 }
 

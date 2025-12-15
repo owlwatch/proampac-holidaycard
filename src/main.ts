@@ -11,7 +11,7 @@ import { loadFull } from "tsparticles"; // if you are going to use `loadSlim`, i
 
 async function run(){
 
-    const sheetId = '1uG6_ndH6qbCDvYO9Vll-2-9lHugiORwCovIYwW85YDQ';
+    const sheetId = '1QN6a_dBYSc_0ZMz6QR7Zn6ZpaAlaq1SBQM-WbX0xWGM';
     const apiKey = 'AIzaSyAvdeXGDbQKvKaUnUwjNYZ_Sn1rRp8wPnM';
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet/?ranges=Translations&key=${apiKey}`;
@@ -37,10 +37,16 @@ async function run(){
             if (keyIndex === -1) { return; }
             const key = row[keyIndex];
             if (!key) { return; }
-            headers.forEach( (v:string, i) => {
+            headers.forEach( async (v:string, i) => {
                 if( i === keyIndex ){ return; }
                 const value = row[i];
                 if (value === undefined) { return; }
+                // we want to process the value as markdown
+                
+                const mdValue = marked.parseInline(value.replace(/\n/g, '<br />'), {async: false});
+                console.log( mdValue );
+
+                // assign
                 let langMessages = messages[v];
                 if( !langMessages ){
                     langMessages = {copy:{}};
@@ -49,7 +55,7 @@ async function run(){
                 if( !langMessages.copy ){
                     langMessages.copy = {};
                 }
-                langMessages.copy[key] = value;
+                langMessages.copy[key] = mdValue;
             });
         }
     });

@@ -45,6 +45,9 @@ watch( locale, (v : any) => {
             top: 0,
             behavior:'smooth'
         });
+
+        // change the html lang attribute
+        document.documentElement.lang = v;
     }
 } );
 </script>
