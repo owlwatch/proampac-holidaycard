@@ -20,10 +20,9 @@ jobs:
         run: |
           mkdir -p release
           cd dist
-          zip -r "../release/freddie-mac-charts-${TAG_NAME}.zip" . \
-            -x "index.html" "*.zip" "**/index.html" "data/*" "data/**"
+          zip -r "../release/proampac-holiday-${TAG_NAME}.zip" .
 
       - name: Upload versioned ZIP to release
         uses: softprops/action-gh-release@v2
         with:
-          files: release/dist-${{ env.TAG_NAME }}.zip
+          files: release/proampac-holiday-${{ env.TAG_NAME }}.zip
