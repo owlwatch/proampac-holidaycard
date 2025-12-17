@@ -1,0 +1,29 @@
+name: Create Distribution ZIP File
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  zip-dist:
+    if: startsWith(github.event.release.tag_name, 'v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set tag name variable
+        run: echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
+      - name: Create versioned ZIP archive
+        run: |
+          mkdir -p release
+          cd dist
+          zip -r "../release/freddie-mac-charts-${TAG_NAME}.zip" . \
+            -x "index.html" "*.zip" "**/index.html" "data/*" "data/**"
+
+      - name: Upload versioned ZIP to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/dist-${{ env.TAG_NAME }}.zip
